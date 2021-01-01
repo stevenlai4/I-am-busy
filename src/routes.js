@@ -7,8 +7,10 @@ const UserToDoController = require('./controllers/UserToDoController');
 ////////////////////////// User //////////////////////////
 // Register user
 routes.post('/user/register', UserController.createUser);
-// Get single user
+// Get user
 routes.get('/user', UserController.getUserById);
+// Update user
+routes.put('/user/update', UserController.updateUser);
 
 ////////////////////////// User To Do //////////////////////////
 // Create user to do

@@ -13,6 +13,15 @@ module.exports = {
             priority,
         } = req.body;
 
+        const user = await User.findById(user_id);
+
+        // Return 400 bad request when user does not exist
+        if (!user) {
+            return res.status(400).json({
+                message: 'User does not exist',
+            });
+        }
+
         try {
             const userToDo = await UserToDo.create({
                 title,

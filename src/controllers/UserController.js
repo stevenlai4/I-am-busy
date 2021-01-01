@@ -52,12 +52,57 @@ module.exports = {
                 });
             }
 
-            // Return 404 not found request when user does not exist
-            return res.status(404).json({
+            // Return 400 bad request when user does not exist
+            return res.status(400).json({
                 message: 'User does not exist',
             });
         } catch (error) {
             throw Error(`Error while getting a user : ${error}`);
+        }
+    },
+    async updateUser(req, res) {
+        const { user_id } = req.headers;
+        const { name, email, password, mobile } = req.body;
+
+        var user = await User.findById(user_id);
+        // Return 400 bad request when user does not exist
+        if (!user) {
+            return res.status(400).json({
+                message: 'User does not exist',
+            });
+        }
+
+        try {
+            const existentEmail = await User.findOne({ email });
+
+            // Only updating a new user when the email doesn't exist previously
+            if (!existentEmail) {
+                const hashedPassword = await bcrypt.hash(password, 10);
+
+                user = await User.findByIdAndUpdate(
+                    user_id,
+                    {
+                        name,
+                        email,
+                        password: hashedPassword,
+                        mobile,
+                    },
+                    { new: true, useFindAndModify: false }
+                );
+
+                return res.json({
+                    name: user.name,
+                    email: user.email,
+                    mobile: user.mobile,
+                });
+            }
+
+            // Return 400 bad request and error msg when the email already exist
+            return res.status(400).json({
+                message: 'Email already exists',
+            });
+        } catch (error) {
+            throw Error(`Error while updating a user : ${error}`);
         }
     },
 };
