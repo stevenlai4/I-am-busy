@@ -36,10 +36,10 @@ module.exports = {
         }
     },
     async getUserById(req, res) {
-        const { userId } = req.params;
+        const { user_id } = req.headers;
 
         try {
-            const user = await User.findById(userId);
+            const user = await User.findById(user_id);
 
             if (user) {
                 return res.json({
