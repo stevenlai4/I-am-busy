@@ -47,6 +47,8 @@ module.exports = {
                     name: user.name,
                     email: user.email,
                     mobile: user.mobile,
+                    team: user.team,
+                    todo: user.todo,
                 });
             }
 

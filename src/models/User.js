@@ -5,10 +5,16 @@ const UserSchema = new mongoose.Schema({
     email: String,
     password: String,
     mobile: Number,
+    todo: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'UserToDo',
+        },
+    ],
     team: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'TeamSchema',
+            ref: 'Team',
         },
     ],
 });
