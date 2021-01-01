@@ -4,7 +4,6 @@ const UserToDoSchema = new mongoose.Schema({
     title: String,
     description: String,
     date: Date,
-    weather: String,
     notification: Boolean,
     priority: Boolean,
 });

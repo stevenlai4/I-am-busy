@@ -57,6 +57,26 @@ module.exports = {
             throw Error(`Error while getting a user to do : ${error}`);
         }
     },
+    async getUserToDos(req, res) {
+        const { user_id } = req.headers;
+
+        const user = await User.findById(user_id);
+
+        // Return 400 bad request when user does not exist
+        if (!user) {
+            return res.status(400).json({
+                message: 'User does not exist',
+            });
+        }
+
+        try {
+            const todos = await UserToDo.find({ _id: user.todo });
+
+            return res.json(todos);
+        } catch (error) {
+            throw Error(`Error while getting all user to dos : ${error}`);
+        }
+    },
     async updateUserToDoById(req, res) {
         const { toDoId } = req.params;
         const { title, description, date, notification, priority } = req.body;
@@ -71,7 +91,7 @@ module.exports = {
         }
 
         try {
-            todo = UserToDo.findByIdAndUpdate(
+            todo = await UserToDo.findByIdAndUpdate(
                 toDoId,
                 {
                     title,
@@ -82,6 +102,8 @@ module.exports = {
                 },
                 { new: true, useFindAndModify: false }
             );
+
+            return res.json(todo);
         } catch (error) {
             throw Error(`Error while updating a user to do : ${error}`);
         }
