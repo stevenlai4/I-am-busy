@@ -15,5 +15,9 @@ routes.put('/user/update', UserController.updateUser);
 ////////////////////////// User To Do //////////////////////////
 // Create user to do
 routes.post('/usertodo/create', UserToDoController.createUserToDo);
+// Get user to do
+routes.get('/usertodo/:toDoId', UserToDoController.getUserToDoById);
+// Update user to do
+routes.put('/usertodo/update/:toDoId', UsertToDoController.updateUserToDoById);
 
 module.exports = routes;

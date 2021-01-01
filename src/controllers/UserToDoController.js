@@ -4,14 +4,7 @@ const User = require('../models/User');
 module.exports = {
     async createUserToDo(req, res) {
         const { user_id } = req.headers;
-        const {
-            title,
-            description,
-            date,
-            weather,
-            notification,
-            priority,
-        } = req.body;
+        const { title, description, date, notification, priority } = req.body;
 
         const user = await User.findById(user_id);
 
@@ -27,7 +20,6 @@ module.exports = {
                 title,
                 description,
                 date,
-                weather,
                 notification,
                 priority,
             }).then((todo) => {
@@ -45,6 +37,53 @@ module.exports = {
             return res.json(userToDo);
         } catch (error) {
             throw Error(`Error while creating a user to do : ${error}`);
+        }
+    },
+    async getUserToDoById(req, res) {
+        const { toDoId } = req.params;
+
+        try {
+            const todo = await UserToDo.findById(toDoId);
+
+            if (todo) {
+                return res.json(todo);
+            }
+
+            // Return 400 bad request if the user to do item doesn't exist
+            return res.status(400).json({
+                message: 'User to do item does not exist',
+            });
+        } catch (error) {
+            throw Error(`Error while getting a user to do : ${error}`);
+        }
+    },
+    async updateUserToDoById(req, res) {
+        const { toDoId } = req.params;
+        const { title, description, date, notification, priority } = req.body;
+
+        var todo = await UserToDo.findById(toDoId);
+
+        // Return 400 bad request if the user to do item doesn't exist
+        if (!todo) {
+            return res.status(400).json({
+                message: 'User to do item does not exist',
+            });
+        }
+
+        try {
+            todo = UserToDo.findByIdAndUpdate(
+                toDoId,
+                {
+                    title,
+                    description,
+                    date,
+                    notification,
+                    priority,
+                },
+                { new: true, useFindAndModify: false }
+            );
+        } catch (error) {
+            throw Error(`Error while updating a user to do : ${error}`);
         }
     },
 };
