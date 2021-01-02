@@ -21,5 +21,7 @@ routes.get('/usertodo', UserToDoController.getUserToDos);
 routes.get('/usertodo/:toDoId', UserToDoController.getUserToDoById);
 // Update user to do
 routes.put('/usertodo/update/:toDoId', UserToDoController.updateUserToDoById);
+// Delete user to do
+routes.delete('/usertodo/:toDoId', UserToDoController.deleteUserToDo);
 
 module.exports = routes;

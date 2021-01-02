@@ -108,4 +108,21 @@ module.exports = {
             throw Error(`Error while updating a user to do : ${error}`);
         }
     },
+    async deleteUserToDo(req, res) {
+        const { toDoId } = req.params;
+
+        try {
+            const todo = await UserToDo.findByIdAndDelete(toDoId);
+
+            if (todo) {
+                return res.status(204);
+            }
+
+            return res.status(400).json({
+                message: 'User to do item does not exist',
+            });
+        } catch (error) {
+            throw Error(`Error while deleting a user to do : ${error}`);
+        }
+    },
 };
