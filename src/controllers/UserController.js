@@ -19,7 +19,12 @@ module.exports = {
                     mobile,
                 });
 
-                return res.status(200).send();
+                return res.json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    mobile: user.mobile,
+                });
             }
 
             // Return 400 bad request and error msg when the email already exist
@@ -43,7 +48,6 @@ module.exports = {
                     email: user.email,
                     mobile: user.mobile,
                     team: user.team,
-                    todo: user.todo,
                 });
             }
 
@@ -59,19 +63,18 @@ module.exports = {
         const { user_id } = req.headers;
         const { name, email, password, mobile } = req.body;
 
-        var user = await User.findById(user_id);
-        // Return 400 bad request when user does not exist
-        if (!user) {
-            return res.status(400).json({
-                message: 'User does not exist',
-            });
-        }
-
         try {
+            var user = await User.findById(user_id);
+            // Return 400 bad request when user does not exist
+            if (!user) {
+                return res.status(400).json({
+                    message: 'User does not exist',
+                });
+            }
+
             const existentEmail = await User.findOne({ email });
 
-            // Only updating a new user when the email doesn't exist previously
-            if (!existentEmail) {
+            if (!existentEmail || user.email === email) {
                 const hashedPassword = await bcrypt.hash(password, 10);
 
                 user = await User.findByIdAndUpdate(
@@ -85,7 +88,12 @@ module.exports = {
                     { new: true, useFindAndModify: false }
                 );
 
-                return res.status(200).send();
+                return res.json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    mobile: user.mobile,
+                });
             }
 
             // Return 400 bad request and error msg when the email already exist
