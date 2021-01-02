@@ -115,9 +115,10 @@ module.exports = {
             const todo = await UserToDo.findByIdAndDelete(toDoId);
 
             if (todo) {
-                return res.status(204);
+                return res.status(204).send();
             }
 
+            // Return 400 bad request if the user to do item doesn't exist
             return res.status(400).json({
                 message: 'User to do item does not exist',
             });

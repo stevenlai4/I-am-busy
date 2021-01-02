@@ -3,6 +3,11 @@ const routes = express.Router();
 // Controllers
 const UserController = require('./controllers/UserController');
 const UserToDoController = require('./controllers/UserToDoController');
+const LoginController = require('./controllers/LoginController');
+
+////////////////////////// Login //////////////////////////
+// Login user
+routes.post('/login', LoginController.login);
 
 ////////////////////////// User //////////////////////////
 // Register user
