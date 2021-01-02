@@ -34,7 +34,7 @@ module.exports = {
                 );
             });
 
-            return res.json(userToDo);
+            return res.status(200).send();
         } catch (error) {
             throw Error(`Error while creating a user to do : ${error}`);
         }
@@ -103,7 +103,7 @@ module.exports = {
                 { new: true, useFindAndModify: false }
             );
 
-            return res.json(todo);
+            return res.status(200).send();
         } catch (error) {
             throw Error(`Error while updating a user to do : ${error}`);
         }

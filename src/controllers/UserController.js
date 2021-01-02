@@ -19,12 +19,7 @@ module.exports = {
                     mobile,
                 });
 
-                return res.json({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    mobile: user.mobile,
-                });
+                return res.status(200).send();
             }
 
             // Return 400 bad request and error msg when the email already exist
@@ -90,11 +85,7 @@ module.exports = {
                     { new: true, useFindAndModify: false }
                 );
 
-                return res.json({
-                    name: user.name,
-                    email: user.email,
-                    mobile: user.mobile,
-                });
+                return res.status(200).send();
             }
 
             // Return 400 bad request and error msg when the email already exist
