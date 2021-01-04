@@ -7,6 +7,7 @@ const UserToDoSchema = new mongoose.Schema({
     date: Date,
     notification: Boolean,
     priority: Boolean,
+    finished: Boolean,
 });
 
 module.exports = mongoose.model('UserToDo', UserToDoSchema);

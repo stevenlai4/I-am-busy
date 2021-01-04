@@ -23,6 +23,7 @@ module.exports = {
                 date,
                 notification,
                 priority,
+                finished: false,
             });
 
             return res.json(todo);
@@ -61,7 +62,10 @@ module.exports = {
                 });
             }
 
-            const todos = await UserToDo.find({ userId: user_id });
+            const todos = await UserToDo.find({
+                userId: user_id,
+                finished: false,
+            });
 
             return res.json(todos);
         } catch (error) {
@@ -99,6 +103,34 @@ module.exports = {
             return res.json(todo);
         } catch (error) {
             throw Error(`Error while updating a user to do : ${error}`);
+        }
+    },
+    async finishedUserToDo(req, res) {
+        const { toDoId } = req.params;
+
+        try {
+            var todo = await UserToDo.findById(toDoId);
+
+            // Return 400 bad request if the user to do item doesn't exist
+            if (!todo) {
+                return res.status(400).json({
+                    message: 'User to do item does not exist',
+                });
+            }
+
+            todo = await UserToDo.findByIdAndUpdate(
+                toDoId,
+                {
+                    $set: {
+                        finished: true,
+                    },
+                },
+                { new: true, useFindAndModify: false }
+            );
+
+            return res.json(todo);
+        } catch (error) {
+            throw Error(`Error while finishing a user to do : ${error}`);
         }
     },
     async deleteUserToDo(req, res) {
