@@ -3,9 +3,15 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
     async createUser(req, res) {
-        try {
-            const { name, email, password, mobile } = req.body;
+        const { name, email, password, mobile } = req.body;
 
+        if (!name || !email || !password || !mobile) {
+            return res.status(200).json({
+                message: 'All fields must be filled',
+            });
+        }
+
+        try {
             const existentUser = await User.findOne({ email });
 
             // Only creating a new user when the email doesn't exist previously
@@ -28,7 +34,7 @@ module.exports = {
             }
 
             // Return 400 bad request and error msg when the email already exist
-            return res.status(400).json({
+            return res.json({
                 message: 'Email already exists',
             });
         } catch (error) {

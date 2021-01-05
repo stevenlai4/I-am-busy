@@ -1,8 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import Routes from './routes';
-
-import './App.scss';
+import './style/App.scss';
 
 function App() {
     return (

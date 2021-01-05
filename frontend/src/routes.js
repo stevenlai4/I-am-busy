@@ -1,15 +1,19 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from './pages/Login';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import UserToDo from './pages/User/ToDo';
+import Register from './pages/Register';
 
-export default function routes() {
+export default function Routes() {
     return (
         <div>
             <BrowserRouter>
                 <Switch>
                     <Route path="/" exact component={Home} />
                     <Route path="/login" component={Login} />
+                    <Route path="/user/todo" component={UserToDo} />
+                    <Route path="/user/register" component={Register} />
                 </Switch>
             </BrowserRouter>
         </div>

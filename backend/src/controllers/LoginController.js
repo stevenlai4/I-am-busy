@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const { json } = require('express');
 
 module.exports = {
     async login(req, res) {
@@ -18,11 +17,11 @@ module.exports = {
             if (user && (await bcrypt.compare(password, user.password))) {
                 return res.json({
                     _id: user._id,
-                    email: user.email,
+                    name: user.name,
                 });
             }
 
-            return res.status(401).json({
+            return res.json({
                 message: 'Email or password does not match',
             });
         } catch (error) {
