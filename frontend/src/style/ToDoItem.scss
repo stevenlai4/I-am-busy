@@ -1,0 +1,48 @@
+@import './global/variables.scss';
+
+.todo-item {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid black;
+    position: relative;
+    padding: 20px 0;
+
+    .title,
+    .description,
+    .date,
+    .weather,
+    .notification {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .sm-heading {
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    .icons i,
+    .close {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .icons {
+        i {
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .priority * {
+            stroke: #000;
+            stroke-width: 100;
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+}

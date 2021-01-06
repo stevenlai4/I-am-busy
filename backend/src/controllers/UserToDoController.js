@@ -9,9 +9,8 @@ module.exports = {
         try {
             const user = await User.findById(user_id);
 
-            // Return 400 bad request when user does not exist
             if (!user) {
-                return res.status(400).json({
+                return res.json({
                     message: 'User does not exist',
                 });
             }
@@ -41,8 +40,7 @@ module.exports = {
                 return res.json(todo);
             }
 
-            // Return 400 bad request if the user to do item doesn't exist
-            return res.status(400).json({
+            return res.json({
                 message: 'User to do item does not exist',
             });
         } catch (error) {
@@ -57,7 +55,7 @@ module.exports = {
 
             // Return 400 bad request when user does not exist
             if (!user) {
-                return res.status(400).json({
+                return res.json({
                     message: 'User does not exist',
                 });
             }
@@ -65,7 +63,9 @@ module.exports = {
             const todos = await UserToDo.find({
                 userId: user_id,
                 finished: false,
-            });
+            }).sort({ priority: -1, date: 1 });
+
+            console.log(todos);
 
             return res.json(todos);
         } catch (error) {
@@ -113,7 +113,7 @@ module.exports = {
 
             // Return 400 bad request if the user to do item doesn't exist
             if (!todo) {
-                return res.status(400).json({
+                return res.json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -133,6 +133,97 @@ module.exports = {
             throw Error(`Error while finishing a user to do : ${error}`);
         }
     },
+    async updateUserToDoDate(req, res) {
+        const { toDoId } = req.params;
+        const { date } = req.body;
+
+        try {
+            var todo = await UserToDo.findById(toDoId);
+
+            // Return 400 bad request if the user to do item doesn't exist
+            if (!todo) {
+                return res.json({
+                    message: 'User to do item does not exist',
+                });
+            }
+
+            todo = await UserToDo.findByIdAndUpdate(
+                toDoId,
+                {
+                    $set: {
+                        date,
+                    },
+                },
+                { new: true, useFindAndModify: false }
+            );
+
+            return res.json(todo);
+        } catch (error) {
+            throw Error(`Error while updating a user to do date : ${error}`);
+        }
+    },
+    async updateUserToDoNotification(req, res) {
+        const { toDoId } = req.params;
+        const { notification } = req.body;
+
+        try {
+            var todo = await UserToDo.findById(toDoId);
+
+            // Return 400 bad request if the user to do item doesn't exist
+            if (!todo) {
+                return res.json({
+                    message: 'User to do item does not exist',
+                });
+            }
+
+            todo = await UserToDo.findByIdAndUpdate(
+                toDoId,
+                {
+                    $set: {
+                        notification,
+                    },
+                },
+                { new: true, useFindAndModify: false }
+            );
+
+            return res.json(todo);
+        } catch (error) {
+            throw Error(
+                `Error while updating a user to do notification : ${error}`
+            );
+        }
+    },
+    async updateUserToDoPriority(req, res) {
+        const { toDoId } = req.params;
+        const { priority } = req.body;
+
+        try {
+            var todo = await UserToDo.findById(toDoId);
+
+            // Return 400 bad request if the user to do item doesn't exist
+            if (!todo) {
+                return res.json({
+                    message: 'User to do item does not exist',
+                });
+            }
+
+            todo = await UserToDo.findByIdAndUpdate(
+                toDoId,
+                {
+                    $set: {
+                        priority,
+                    },
+                },
+                { new: true, useFindAndModify: false }
+            );
+
+            return res.json(todo);
+        } catch (error) {
+            throw Error(
+                `Error while updating a user to do priority : ${error}`
+            );
+        }
+    },
     async deleteUserToDo(req, res) {
         const { toDoId } = req.params;
 
@@ -144,7 +235,7 @@ module.exports = {
             }
 
             // Return 400 bad request if the user to do item doesn't exist
-            return res.status(400).json({
+            return res.json({
                 message: 'User to do item does not exist',
             });
         } catch (error) {

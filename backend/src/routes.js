@@ -34,10 +34,28 @@ routes.post('/user/todo/create', UserToDoController.createUserToDo);
 routes.get('/user/todo', UserToDoController.getUserToDos);
 // Update user to do
 routes.put('/user/todo/update/:toDoId', UserToDoController.updateUserToDoById);
+// Update user to do date
+routes.put(
+    '/user/todo/update/date/:toDoId',
+    UserToDoController.updateUserToDoDate
+);
+// Update user to do notification
+routes.put(
+    '/user/todo/update/notification/:toDoId',
+    UserToDoController.updateUserToDoNotification
+);
+// Update user to do priority
+routes.put(
+    '/user/todo/update/priority/:toDoId',
+    UserToDoController.updateUserToDoPriority
+);
 // Get user to do
 routes.get('/user/todo/:toDoId', UserToDoController.getUserToDoById);
 // Finished user to do
-routes.put('/user/todo/:toDoId', UserToDoController.finishedUserToDo);
+routes.put(
+    '/user/todo/update/finish/:toDoId',
+    UserToDoController.finishedUserToDo
+);
 // Delete user to do
 routes.delete('/user/todo/:toDoId', UserToDoController.deleteUserToDo);
 
