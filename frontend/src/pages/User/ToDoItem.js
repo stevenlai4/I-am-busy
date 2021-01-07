@@ -16,7 +16,6 @@ export default function ToDoItem({
 }) {
     const [date, setDate] = useState(new Date(todo.date));
     const [notification, setNotification] = useState(todo.notification);
-    const [priority, setPriority] = useState(todo.priority);
 
     // Handle date change
     const handleDateChange = async (e) => {
@@ -65,13 +64,20 @@ export default function ToDoItem({
         if (response.data.message) {
             setWarningMsg(response.data.message);
         } else {
-            setPriority((prev) => !prev);
             setRerender((prev) => !prev);
         }
     };
 
     //Handle delete to do
     const handleDeleteToDo = async () => {
+        const deleteConfirm = window.confirm(
+            'Deleted item cannot be restored! Are you sure you want to delete it?'
+        );
+
+        if (!deleteConfirm) {
+            return;
+        }
+
         let response = await api.delete(`/user/todo/${todo._id}`);
 
         if (response.data.message) {
@@ -128,7 +134,7 @@ export default function ToDoItem({
                     className="priority"
                     onClick={handlePriorityChange}
                     style={{
-                        color: priority ? '#eed555' : 'transparent',
+                        color: todo.priority ? '#eed555' : 'transparent',
                     }}
                 >
                     <AiFillStar />

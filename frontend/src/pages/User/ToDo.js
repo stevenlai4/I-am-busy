@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import ToDoItem from './ToDoItem';
+import '../../style/ToDo.scss';
 
 export default function ToDo({ history }) {
     const [toDos, setToDos] = useState([]);
@@ -59,6 +60,10 @@ export default function ToDo({ history }) {
                 ) : (
                     toDos.map(createToDoItem)
                 )}
+            </div>
+            <div className="todo-links">
+                <a href="/user/todo/create">Add New +</a>
+                <a href="">Browse to do history...</a>
             </div>
         </div>
     );

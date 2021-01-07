@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import UserToDo from './pages/User/ToDo';
 import ToDoUpdate from './pages/User/ToDoUpdate';
+import ToDoCreate from './pages/User/ToDoCreate';
 import Register from './pages/Register';
 
 export default function Routes() {
@@ -17,6 +18,7 @@ export default function Routes() {
                         path="/user/todo/update/:todo_id"
                         component={ToDoUpdate}
                     />
+                    <Route path="/user/todo/create" component={ToDoCreate} />
                     <Route path="/user/todo" component={UserToDo} />
                     <Route path="/user/register" component={Register} />
                 </Switch>

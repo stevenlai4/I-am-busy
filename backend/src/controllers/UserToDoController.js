@@ -4,7 +4,7 @@ const User = require('../models/User');
 module.exports = {
     async createUserToDo(req, res) {
         const { user_id } = req.headers;
-        const { title, description, date, notification, priority } = req.body;
+        const { title, description, date, notification } = req.body;
 
         try {
             const user = await User.findById(user_id);
@@ -21,7 +21,8 @@ module.exports = {
                 description,
                 date,
                 notification,
-                priority,
+                date_created: new Date(),
+                priority: false,
                 finished: false,
             });
 
@@ -63,9 +64,7 @@ module.exports = {
             const todos = await UserToDo.find({
                 userId: user_id,
                 finished: false,
-            }).sort({ priority: -1, date: 1 });
-
-            console.log(todos);
+            }).sort({ priority: -1, date_created: -1 });
 
             return res.json(todos);
         } catch (error) {
