@@ -12,10 +12,21 @@ export default function ToDoItem({
     todo,
     setWarningMsg,
     setRerender,
+    setSuccessMsg,
     history,
 }) {
     const [date, setDate] = useState(new Date(todo.date));
     const [notification, setNotification] = useState(todo.notification);
+
+    // Set warning message timeout
+    const setWarningMsgTimeout = () => {
+        setTimeout(() => setWarningMsg(''), 3000);
+    };
+
+    // Set successful message timeout
+    const setSuccessMsgTimeout = () => {
+        setTimeout(() => setSuccessMsg(''), 3000);
+    };
 
     // Handle date change
     const handleDateChange = async (e) => {
@@ -25,8 +36,11 @@ export default function ToDoItem({
 
         if (response.data.message) {
             setWarningMsg(response.data.message);
+            setWarningMsgTimeout();
         } else {
             setDate(new Date(response.data.date));
+            setSuccessMsg(`"${todo.title}" date successfully changed`);
+            setSuccessMsgTimeout();
         }
     };
 
@@ -39,8 +53,17 @@ export default function ToDoItem({
 
         if (response.data.message) {
             setWarningMsg(response.data.message);
+            setWarningMsgTimeout();
         } else {
             setNotification(response.data.notification);
+
+            if (response.data.notification) {
+                setSuccessMsg(`"${todo.title}" notification turned ON`);
+            } else {
+                setSuccessMsg(`"${todo.title}" notification turned OFF`);
+            }
+
+            setSuccessMsgTimeout();
         }
     };
 
@@ -50,8 +73,11 @@ export default function ToDoItem({
 
         if (response.data.message) {
             setWarningMsg(response.data.message);
+            setWarningMsgTimeout();
         } else {
             setRerender((prev) => !prev);
+            setSuccessMsg(`"${todo.title}" finished`);
+            setSuccessMsgTimeout();
         }
     };
 
@@ -63,8 +89,13 @@ export default function ToDoItem({
 
         if (response.data.message) {
             setWarningMsg(response.data.message);
+            setWarningMsgTimeout();
         } else {
             setRerender((prev) => !prev);
+            if (response.data.priority) {
+                setSuccessMsg(`"${todo.title}" prioritized`);
+                setSuccessMsgTimeout();
+            }
         }
     };
 
@@ -84,6 +115,8 @@ export default function ToDoItem({
             setWarningMsg(response.data.message);
         } else {
             setRerender((prev) => !prev);
+            setSuccessMsg(`"${todo.title}" successfully deleted`);
+            setSuccessMsgTimeout();
         }
     };
 

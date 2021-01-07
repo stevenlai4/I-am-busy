@@ -6,6 +6,7 @@ import '../../style/ToDo.scss';
 export default function ToDo({ history }) {
     const [toDos, setToDos] = useState([]);
     const [warningMsg, setWarningMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
     const [rerender, setRerender] = useState(false);
 
     const user = localStorage.getItem('user');
@@ -47,6 +48,7 @@ export default function ToDo({ history }) {
                 key={todo._id}
                 setWarningMsg={setWarningMsg}
                 setRerender={setRerender}
+                setSuccessMsg={setSuccessMsg}
                 history={history}
             />
         );
@@ -56,6 +58,7 @@ export default function ToDo({ history }) {
         <div className="user-todo">
             <h1>To Do</h1>
             {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
+            {successMsg ? <p className="success-msg">{successMsg}</p> : ''}
             <div className="todo-list-heading">
                 <p>Title</p>
                 <p>Date</p>
