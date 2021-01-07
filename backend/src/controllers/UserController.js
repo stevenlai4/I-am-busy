@@ -1,9 +1,15 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
+// Set sendgrid api key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = {
     async createUser(req, res) {
         const { name, email, password, mobile } = req.body;
+        const { client_host } = req.headers;
 
         if (!name || !email || !password || !mobile) {
             return res.status(200).json({
@@ -21,9 +27,38 @@ module.exports = {
                 const user = await User.create({
                     name,
                     email,
+                    emailToken: crypto.randomBytes(64).toString('hex'),
+                    emailConfirmed: false,
                     password: hashedPassword,
                     mobile,
                 });
+
+                // Sendgrid message
+                const msg = {
+                    from: 'steven_lai4@hotmail.com',
+                    to: user.email,
+                    subject: 'I Am Busy - Email Confirmation',
+                    text: `
+                    Thanks for registering an account!
+                    Please copy and paste the following address to verify your account.
+                    http://${client_host}/user/email-verified/${user.emailToken}
+                    `,
+                    html: `<h1>I Am Busy</h1>
+                    <p>Thanks for registering an account!</p>
+                    <p>Please click the following link to verify your account.</p>
+                    <a href="http://${client_host}/user/email-verified/${user.emailToken}">Confirm Your Email</a>`,
+                };
+
+                // Send a sendgrid email verification email
+                try {
+                    await sgMail.send(msg);
+                } catch (error) {
+                    console.log(error);
+                    return res.json({
+                        message:
+                            'Error while sending a confirmation email. Please contact us for assistance.',
+                    });
+                }
 
                 return res.json({
                     _id: user._id,
@@ -33,12 +68,39 @@ module.exports = {
                 });
             }
 
-            // Return 400 bad request and error msg when the email already exist
             return res.json({
                 message: 'Email already exists',
             });
         } catch (error) {
             throw Error(`Error while registering a new user : ${error}`);
+        }
+    },
+    async verifyUserEmail(req, res) {
+        const { email_token } = req.headers;
+
+        try {
+            const user = await User.findOne({ emailToken: email_token });
+
+            if (!user) {
+                return res.json({
+                    message: 'Token invalid. Please contact us for assistance.',
+                });
+            }
+
+            user.emailToken = null;
+            user.emailConfirmed = true;
+            await user.save();
+
+            return res.json({
+                _id: user._id,
+                email: user.email,
+                name: user.name,
+            });
+        } catch (error) {
+            return res.json({
+                message:
+                    'Something went wrong. Please contact us for assistance.',
+            });
         }
     },
     async getUserById(req, res) {
@@ -57,8 +119,7 @@ module.exports = {
                 });
             }
 
-            // Return 400 bad request when user does not exist
-            return res.status(400).json({
+            return res.json({
                 message: 'User does not exist',
             });
         } catch (error) {
@@ -71,9 +132,8 @@ module.exports = {
 
         try {
             var user = await User.findById(user_id);
-            // Return 400 bad request when user does not exist
             if (!user) {
-                return res.status(400).json({
+                return res.json({
                     message: 'User does not exist',
                 });
             }
@@ -102,8 +162,7 @@ module.exports = {
                 });
             }
 
-            // Return 400 bad request and error msg when the email already exist
-            return res.status(400).json({
+            return res.json({
                 message: 'Email already exists',
             });
         } catch (error) {

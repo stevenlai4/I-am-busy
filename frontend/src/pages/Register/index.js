@@ -13,17 +13,21 @@ export default function Register({ history }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await api.post('/user/register', {
-            name,
-            email,
-            password,
-            mobile,
-        });
+        const response = await api.post(
+            '/user/register',
+            {
+                name,
+                email,
+                password,
+                mobile,
+            },
+            { headers: { client_host: window.location.host } }
+        );
 
         if (response.data.message) {
             setWarningMsg(response.data.message);
         } else if (passwordMatch) {
-            history.push('/login');
+            history.push('/user/email-confirm');
         }
     };
 

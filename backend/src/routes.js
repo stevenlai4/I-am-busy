@@ -13,6 +13,8 @@ routes.post('/login', LoginController.login);
 ////////////////////////// User //////////////////////////
 // Register user
 routes.post('/user/register', UserController.createUser);
+// Verify user email
+routes.get('/user/verify-email', UserController.verifyUserEmail);
 // Get user
 routes.get('/user', UserController.getUserById);
 // Update user

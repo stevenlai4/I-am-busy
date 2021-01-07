@@ -14,6 +14,13 @@ module.exports = {
         try {
             const user = await User.findOne({ email });
 
+            if (user && !user.emailConfirmed) {
+                return res.json({
+                    message:
+                        'Email not confirmed. Please confirm your email first.',
+                });
+            }
+
             if (user && (await bcrypt.compare(password, user.password))) {
                 return res.json({
                     _id: user._id,

@@ -6,6 +6,8 @@ import UserToDo from './pages/User/ToDo';
 import ToDoUpdate from './pages/User/ToDoUpdate';
 import ToDoCreate from './pages/User/ToDoCreate';
 import Register from './pages/Register';
+import ConfirmEmail from './pages/Register/ConfirmEmail';
+import EmailVerified from './pages/Register/EmailVerified';
 
 export default function Routes() {
     return (
@@ -21,6 +23,14 @@ export default function Routes() {
                     <Route path="/user/todo/create" component={ToDoCreate} />
                     <Route path="/user/todo" component={UserToDo} />
                     <Route path="/user/register" component={Register} />
+                    <Route
+                        path="/user/email-confirm"
+                        component={ConfirmEmail}
+                    />
+                    <Route
+                        path="/user/email-verified/:token"
+                        component={EmailVerified}
+                    />
                 </Switch>
             </BrowserRouter>
         </div>

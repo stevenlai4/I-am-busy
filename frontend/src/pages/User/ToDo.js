@@ -17,11 +17,13 @@ export default function ToDo({ history }) {
     // CDM
     useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // CDU
     useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rerender]);
 
     const fetchData = async () => {
@@ -63,7 +65,7 @@ export default function ToDo({ history }) {
             </div>
             <div className="todo-links">
                 <a href="/user/todo/create">Add New +</a>
-                <a href="">Browse to do history...</a>
+                {/* <a href="">Browse to do history...</a> */}
             </div>
         </div>
     );
