@@ -4,7 +4,6 @@ import '../../style/ToDoCreate.scss';
 
 export default function ToDoCreate({ history }) {
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
     const [date, setDate] = useState();
     const [notification, setNotification] = useState(false);
     const [warningMsg, setWarningMsg] = useState('');
@@ -47,7 +46,6 @@ export default function ToDoCreate({ history }) {
             '/user/todo/create',
             {
                 title,
-                description,
                 date,
                 notification,
             },
@@ -76,16 +74,6 @@ export default function ToDoCreate({ history }) {
                         name="title"
                         onChange={(e) => setTitle(e.target.value)}
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                        id="description"
-                        type="text"
-                        name="description"
-                        placeholder="Optional..."
-                        onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
                 </div>
                 <div className="form-group">
                     <label htmlFor="date">Date</label>

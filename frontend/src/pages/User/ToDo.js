@@ -55,8 +55,15 @@ export default function ToDo({ history }) {
     return (
         <div className="user-todo">
             <h1>To Do</h1>
+            {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
+            <div className="todo-list-heading">
+                <p>Title</p>
+                <p>Date</p>
+                <p>Weather</p>
+                <p>Notification</p>
+                <p></p>
+            </div>
             <div className="todo-list">
-                {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
                 {toDos.length === 0 ? (
                     <p>Your to do list is empty</p>
                 ) : (

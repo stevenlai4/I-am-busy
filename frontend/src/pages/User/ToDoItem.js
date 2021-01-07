@@ -93,10 +93,6 @@ export default function ToDoItem({
                 <span className="sm-heading">Title:</span>
                 <span>{todo.title}</span>
             </div>
-            <div className="description">
-                <span className="sm-heading">Description:</span>
-                <span>{todo.description}</span>
-            </div>
             <div className="date">
                 <span className="sm-heading">Date:</span>
                 <input

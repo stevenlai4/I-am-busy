@@ -4,7 +4,7 @@ const User = require('../models/User');
 module.exports = {
     async createUserToDo(req, res) {
         const { user_id } = req.headers;
-        const { title, description, date, notification } = req.body;
+        const { title, date, notification } = req.body;
 
         try {
             const user = await User.findById(user_id);
@@ -18,7 +18,6 @@ module.exports = {
             const todo = await UserToDo.create({
                 userId: user_id,
                 title,
-                description,
                 date,
                 notification,
                 date_created: new Date(),
@@ -54,7 +53,6 @@ module.exports = {
         try {
             const user = await User.findById(user_id);
 
-            // Return 400 bad request when user does not exist
             if (!user) {
                 return res.json({
                     message: 'User does not exist',
@@ -73,14 +71,13 @@ module.exports = {
     },
     async updateUserToDoById(req, res) {
         const { toDoId } = req.params;
-        const { title, description, date, notification, priority } = req.body;
+        const { title, date, notification, priority } = req.body;
 
         try {
             var todo = await UserToDo.findById(toDoId);
 
-            // Return 400 bad request if the user to do item doesn't exist
             if (!todo) {
-                return res.status(400).json({
+                return res.json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -90,7 +87,6 @@ module.exports = {
                 {
                     $set: {
                         title,
-                        description,
                         date,
                         notification,
                         priority,
@@ -110,7 +106,6 @@ module.exports = {
         try {
             var todo = await UserToDo.findById(toDoId);
 
-            // Return 400 bad request if the user to do item doesn't exist
             if (!todo) {
                 return res.json({
                     message: 'User to do item does not exist',
@@ -139,7 +134,6 @@ module.exports = {
         try {
             var todo = await UserToDo.findById(toDoId);
 
-            // Return 400 bad request if the user to do item doesn't exist
             if (!todo) {
                 return res.json({
                     message: 'User to do item does not exist',
@@ -168,7 +162,6 @@ module.exports = {
         try {
             var todo = await UserToDo.findById(toDoId);
 
-            // Return 400 bad request if the user to do item doesn't exist
             if (!todo) {
                 return res.json({
                     message: 'User to do item does not exist',
@@ -199,7 +192,6 @@ module.exports = {
         try {
             var todo = await UserToDo.findById(toDoId);
 
-            // Return 400 bad request if the user to do item doesn't exist
             if (!todo) {
                 return res.json({
                     message: 'User to do item does not exist',
@@ -233,7 +225,6 @@ module.exports = {
                 return res.status(204).send();
             }
 
-            // Return 400 bad request if the user to do item doesn't exist
             return res.json({
                 message: 'User to do item does not exist',
             });

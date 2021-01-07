@@ -94,7 +94,7 @@ export default function Register({ history }) {
                 <input type="submit" value="Submit" />
             </form>
             <div className="has-account-login">
-                <span>Already have an account?</span>
+                <span>Already have an account? </span>
                 <a href="/login">Login</a>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 .todo-item {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     border-bottom: 1px solid black;
     position: relative;
     padding: 20px 0;
@@ -12,13 +12,16 @@
     .date,
     .weather,
     .notification {
-        width: 100%;
         margin-bottom: 12px;
     }
 
     .sm-heading {
         font-weight: 700;
         margin-right: 10px;
+    }
+
+    .date input {
+        width: 150px;
     }
 
     .icons i,
@@ -42,7 +45,43 @@
 
     .close {
         position: absolute;
-        top: 8px;
+        top: 20px;
         right: 8px;
+    }
+}
+
+@media screen and (min-width: map-get($breakpoints, desktop)) {
+    .todo-item {
+        flex-direction: row;
+
+        .sm-heading {
+            display: none;
+        }
+
+        .title,
+        .description,
+        .date,
+        .weather,
+        .notification,
+        .icons {
+            width: 20%;
+            margin-bottom: 0;
+        }
+
+        .date {
+            text-align: center;
+        }
+
+        .weather {
+            text-align: center;
+        }
+
+        .notification {
+            text-align: center;
+        }
+
+        .icons {
+            text-align: center;
+        }
     }
 }

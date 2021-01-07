@@ -48,7 +48,7 @@ export default function Login({ history }) {
                 <input type="submit" value="Submit" />
             </form>
             <div className="no-account-register">
-                <span>No account yet?</span>
+                <span>No account yet? </span>
                 <a href="/user/register">Register</a>
             </div>
         </div>
