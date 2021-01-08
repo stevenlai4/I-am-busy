@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import ToDoItem from './ToDoItem';
-import '../../style/ToDo.scss';
+import ToDoHistoryItem from './ToDoHistoryItem';
+import '../../style/ToDoHistory.scss';
 
-export default function ToDo({ history }) {
+export default function ToDoHistory({ history }) {
     const [toDos, setToDos] = useState([]);
     const [warningMsg, setWarningMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const [rerender, setRerender] = useState(false);
-
     const user = sessionStorage.getItem('user');
 
     if (!user) {
@@ -28,55 +27,53 @@ export default function ToDo({ history }) {
     }, [rerender]);
 
     const fetchData = async () => {
-        let response = await api.get('/user/todo', {
-            headers: {
-                user_id: user,
-            },
-        });
+        try {
+            let response = await api.get('/user/todo/history', {
+                headers: {
+                    user_id: user,
+                },
+            });
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-        } else {
-            setToDos(response.data);
+            if (response.data.message) {
+                setWarningMsg(response.data.message);
+            } else {
+                setToDos(response.data);
+            }
+        } catch (error) {
+            console.log(error);
         }
     };
 
-    const createToDoItem = (todo) => {
+    const createHistoryItem = (todo) => {
         return (
-            <ToDoItem
+            <ToDoHistoryItem
                 todo={todo}
                 key={todo._id}
                 setWarningMsg={setWarningMsg}
                 setSuccessMsg={setSuccessMsg}
                 setRerender={setRerender}
-                history={history}
             />
         );
     };
 
     return (
-        <div className="user-todo">
-            <h1>To Do</h1>
+        <div className="todo-history">
+            <h1>To Do History</h1>
             {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
             {successMsg ? <p className="success-msg">{successMsg}</p> : ''}
-            <div className="todo-list-heading">
+            <div className="todo-history-heading">
                 <p>Title</p>
                 <p>Date</p>
-                <p>Weather</p>
                 <p>Notification</p>
-                <p></p>
             </div>
             <div className="todo-list">
                 {toDos.length === 0 ? (
-                    <p className="empty-todo">Your to do list is empty</p>
+                    <p className="empty-todo">Your to do history is empty</p>
                 ) : (
-                    toDos.map(createToDoItem)
+                    toDos.map(createHistoryItem)
                 )}
             </div>
-            <div className="todo-links">
-                <a href="/user/todo/create">Add New +</a>
-                <a href="/user/todo/history">Browse to do history...</a>
-            </div>
+            <a href="/user/todo">&lt;&lt; Back To Dashboard</a>
         </div>
     );
 }

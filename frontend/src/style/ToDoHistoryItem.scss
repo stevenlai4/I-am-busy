@@ -1,0 +1,68 @@
+@import './global/variables.scss';
+
+.history-item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+    padding: 20px 0;
+    position: relative;
+
+    .title,
+    .date,
+    .notification {
+        margin-bottom: 12px;
+    }
+
+    .title {
+        padding-right: 50px;
+
+        &:nth-child(1) {
+            overflow-wrap: anywhere;
+        }
+    }
+
+    .sm-heading {
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    .restore {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 25px;
+    }
+}
+
+@media screen and (min-width: map-get($breakpoints, tablet)) {
+    .history-item {
+        flex-direction: row;
+
+        .sm-heading {
+            display: none;
+        }
+
+        .title,
+        .date,
+        .notification {
+            margin-bottom: 0;
+        }
+
+        .date,
+        .notification {
+            width: 25%;
+            text-align: center;
+        }
+
+        .title {
+            width: 40%;
+            padding-right: 0;
+        }
+
+        .restore {
+            top: 10px;
+            right: 5px;
+        }
+    }
+}

@@ -8,9 +8,8 @@ module.exports = {
         try {
             const user = await User.findById(user_id);
 
-            // Return 400 bad request when user does not exist
             if (!user) {
-                return res.status(400).json({
+                return res.json({
                     message: 'User does not exist',
                 });
             }
@@ -31,9 +30,8 @@ module.exports = {
         try {
             var todo = await UserToDo.findById(toDoId);
 
-            // Return 400 bad request if the user to do item doesn't exist
             if (!todo) {
-                return res.status(400).json({
+                return res.json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -42,7 +40,9 @@ module.exports = {
                 toDoId,
                 {
                     $set: {
+                        date: new Date(),
                         finished: false,
+                        priority: false,
                     },
                 },
                 { new: true, useFindAndModify: false }

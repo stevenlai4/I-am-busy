@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import UserToDo from './pages/User/ToDo';
 import ToDoUpdate from './pages/User/ToDoUpdate';
 import ToDoCreate from './pages/User/ToDoCreate';
+import ToDoHistory from './pages/User/ToDoHistory';
 import Register from './pages/Register';
 import ConfirmEmail from './pages/Register/ConfirmEmail';
 import EmailVerified from './pages/Register/EmailVerified';
@@ -20,6 +21,7 @@ export default function Routes() {
                         path="/user/todo/update/:todo_id"
                         component={ToDoUpdate}
                     />
+                    <Route path="/user/todo/history" component={ToDoHistory} />
                     <Route path="/user/todo/create" component={ToDoCreate} />
                     <Route path="/user/todo" component={UserToDo} />
                     <Route path="/user/register" component={Register} />

@@ -1,17 +1,22 @@
 .App {
+    .warning-msg,
+    .success-msg {
+        padding: 5px 5%;
+        border-radius: 5px;
+        overflow-wrap: anywhere;
+    }
+
     .warning-msg {
         color: #d8000c;
         background-color: #ffbaba;
-        padding: 5px 5%;
+
         border: 2px solid #d8000c;
-        border-radius: 5px;
     }
 
     .success-msg {
         color: #270;
         background-color: #dff28f;
-        padding: 5px 5%;
+
         border: 2px solid #270;
-        border-radius: 5px;
     }
 }

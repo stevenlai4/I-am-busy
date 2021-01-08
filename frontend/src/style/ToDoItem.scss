@@ -8,11 +8,18 @@
     padding: 20px 0;
 
     .title,
-    .description,
     .date,
     .weather,
     .notification {
         margin-bottom: 12px;
+    }
+
+    .title {
+        padding-right: 50px;
+
+        &:nth-child(1) {
+            overflow-wrap: anywhere;
+        }
     }
 
     .sm-heading {
@@ -68,18 +75,13 @@
             margin-bottom: 0;
         }
 
-        .date {
-            text-align: center;
+        .title {
+            padding-right: 0;
         }
 
-        .weather {
-            text-align: center;
-        }
-
-        .notification {
-            text-align: center;
-        }
-
+        .date,
+        .weather,
+        .notification,
         .icons {
             text-align: center;
         }
