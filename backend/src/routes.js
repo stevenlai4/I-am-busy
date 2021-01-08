@@ -51,7 +51,7 @@ routes.put(
     '/user/todo/update/priority/:toDoId',
     UserToDoController.updateUserToDoPriority
 );
-// Get user to do
+// Get user to do by id
 routes.get('/user/todo/:toDoId', UserToDoController.getUserToDoById);
 // Finished user to do
 routes.put(

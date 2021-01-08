@@ -71,7 +71,7 @@ module.exports = {
     },
     async updateUserToDoById(req, res) {
         const { toDoId } = req.params;
-        const { title, date, notification, priority } = req.body;
+        const { title, date, notification } = req.body;
 
         try {
             var todo = await UserToDo.findById(toDoId);
@@ -89,7 +89,6 @@ module.exports = {
                         title,
                         date,
                         notification,
-                        priority,
                     },
                 },
                 { new: true, useFindAndModify: false }
