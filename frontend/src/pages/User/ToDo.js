@@ -9,7 +9,7 @@ export default function ToDo({ history }) {
     const [successMsg, setSuccessMsg] = useState('');
     const [rerender, setRerender] = useState(false);
 
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
 
     if (!user) {
         history.push('/login');

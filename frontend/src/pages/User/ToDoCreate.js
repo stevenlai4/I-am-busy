@@ -8,7 +8,7 @@ export default function ToDoCreate({ history }) {
     const [notification, setNotification] = useState(false);
     const [warningMsg, setWarningMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
 
     if (!user) {
         history.push('./login');

@@ -14,8 +14,8 @@ export default function Login({ history }) {
         const userId = response.data._id || false;
 
         if (userId) {
-            localStorage.setItem('user', userId);
-            localStorage.setItem('name', response.data.name);
+            sessionStorage.setItem('user', userId);
+            sessionStorage.setItem('name', response.data.name);
             history.push('/user/todo');
         } else {
             setWarningMsg(response.data.message);

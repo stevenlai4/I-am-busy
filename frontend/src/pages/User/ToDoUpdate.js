@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function ToDoUpdate({ history }) {
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
 
     if (!user) {
         history.push('/login');
