@@ -50,7 +50,11 @@ export default function ToDoHistoryItem({
                 <span className="sm-heading">Notification:</span>
                 <span>{todo.notification ? 'ON' : 'OFF'}</span>
             </div>
-            <i className="restore" onClick={handleToDoRestore}>
+            <i
+                className="restore"
+                title="Restore Item"
+                onClick={handleToDoRestore}
+            >
                 <MdRestore />
             </i>
         </div>

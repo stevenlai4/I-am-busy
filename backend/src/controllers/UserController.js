@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+// Need this for sendgrid
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 // Set sendgrid api key

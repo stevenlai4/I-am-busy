@@ -148,11 +148,16 @@ export default function ToDoItem({
                 />
             </div>
             <div className="icons">
-                <i className="finish" onClick={handleFinishToDo}>
+                <i
+                    className="finish"
+                    title="Finish Item"
+                    onClick={handleFinishToDo}
+                >
                     <AiFillCheckCircle />
                 </i>
                 <i
                     className="update"
+                    title="Edit Item"
                     onClick={() => {
                         history.push(`/user/todo/update/${todo._id}`);
                     }}
@@ -161,6 +166,7 @@ export default function ToDoItem({
                 </i>
                 <i
                     className="priority"
+                    title="Prioritize Item"
                     onClick={handlePriorityChange}
                     style={{
                         color: todo.priority ? '#eed555' : 'transparent',
@@ -169,7 +175,7 @@ export default function ToDoItem({
                     <AiFillStar />
                 </i>
             </div>
-            <i className="close" onClick={handleDeleteToDo}>
+            <i className="close" title="Delete Item" onClick={handleDeleteToDo}>
                 <AiOutlineCloseCircle />
             </i>
         </div>
