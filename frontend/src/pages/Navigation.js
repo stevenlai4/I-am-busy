@@ -8,62 +8,66 @@ import {
 import { BiLogOut } from 'react-icons/bi';
 import '../style/global/navigation.scss';
 
-export default function Navigation() {
+export default function Navigation({ navToggle }) {
     const user = sessionStorage.getItem('user');
 
     return (
-        <div className="navigation">
-            <h1>I AM BUSY</h1>
+        <div className={`navigation ${navToggle ? 'appear' : ''}`}>
+            <a className="logo" href="/">
+                <h1>I AM BUSY</h1>
+            </a>
             {user ? (
                 <div>
                     <ul className="nav-list">
-                        <li>
-                            <i>
-                                <AiFillHome />
-                            </i>
-                            <span>HOME</span>
-                        </li>
-                        <li>
-                            <i>
+                        <a href="/user/todo">
+                            <li className="nav-item">
                                 <AiOutlineUnorderedList />
-                            </i>
-                            <span>TO DO</span>
-                        </li>
-                        <li>
-                            <i>
+
+                                <span>TO DO</span>
+                            </li>
+                        </a>
+                        <a href="/user/calendar">
+                            <li className="nav-item">
                                 <AiFillCalendar />
-                            </i>
-                            <span>CALENDAR</span>
-                        </li>
-                        <li>
-                            <i>
+
+                                <span>CALENDAR</span>
+                            </li>
+                        </a>
+                        <a href="/user">
+                            <li className="nav-item">
                                 <FaUserAlt />
-                            </i>
-                            <span>ACCOUNT</span>
-                        </li>
-                        <li>
-                            <i>
+
+                                <span>ACCOUNT</span>
+                            </li>
+                        </a>
+                        <a href="/logout">
+                            <li
+                                className="nav-item"
+                                onClick={() => {
+                                    sessionStorage.clear();
+                                }}
+                            >
                                 <BiLogOut />
-                            </i>
-                            <span>SIGN OUT</span>
-                        </li>
+                                <span>SIGN OUT</span>
+                            </li>
+                        </a>
                     </ul>
                 </div>
             ) : (
                 <div>
                     <ul className="nav-list">
-                        <li>
-                            <i>
+                        <a href="/">
+                            <li className="nav-item">
                                 <AiFillHome />
-                            </i>
-                            <span>HOME</span>
-                        </li>
-                        <li>
-                            <i>
+                                <span>HOME</span>
+                            </li>
+                        </a>
+                        <a href="/login">
+                            <li className="nav-item">
                                 <FaUserAlt />
-                            </i>
-                            <span>SIGN IN</span>
-                        </li>
+                                <span>SIGN IN</span>
+                            </li>
+                        </a>
                     </ul>
                 </div>
             )}

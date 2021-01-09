@@ -1,2 +1,118 @@
+@import './variables.scss';
+
 .navigation {
+    position: absolute;
+    width: 80%;
+    background-color: #fff;
+    border: 2px solid #000;
+    height: 100vh;
+    top: 0px;
+    left: -100%;
+    z-index: 50;
+    transition: all 0.6s;
+
+    &.appear {
+        left: 0;
+    }
+
+    .logo {
+        text-decoration: none;
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            color: #000;
+        }
+    }
+
+    .nav-list {
+        list-style: none;
+        a {
+            text-decoration: none;
+
+            .nav-item {
+                padding: 20px 15%;
+                cursor: pointer;
+
+                svg {
+                    font-size: 30px;
+                    margin-right: 30px;
+                }
+
+                span {
+                    font-size: 20px;
+                    vertical-align: bottom;
+                }
+            }
+
+            * {
+                color: #000;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: map-get($breakpoints, tablet)) {
+    .navigation {
+        width: 70%;
+
+        h1 {
+            font-size: 65px;
+        }
+
+        &.appear {
+            left: -25px;
+        }
+
+        .nav-list {
+            a {
+                .nav-item {
+                    padding: 30px 20%;
+
+                    svg {
+                        font-size: 50px;
+                        margin-right: 50px;
+                    }
+
+                    span {
+                        font-size: 35px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: map-get($breakpoints, desktop)) {
+    .navigation {
+        left: 0;
+        width: 5%;
+        border-top: none;
+        border-bottom: none;
+
+        h1 {
+            display: none;
+        }
+
+        .nav-list {
+            a {
+                .nav-item {
+                    position: relative;
+                    padding: 20px 0;
+                    margin: 20px 0;
+
+                    svg {
+                        width: 100%;
+                        font-size: 35px;
+                        margin-right: 0;
+                    }
+
+                    span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
 }
