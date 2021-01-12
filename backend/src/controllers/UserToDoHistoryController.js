@@ -1,5 +1,6 @@
 const UserToDo = require('../models/UserToDo');
 const User = require('../models/User');
+const moment = require('moment');
 
 module.exports = {
     async getUserToDoHistory(req, res) {
@@ -17,7 +18,7 @@ module.exports = {
             const todos = await UserToDo.find({
                 userId: user_id,
                 finished: true,
-            });
+            }).sort({ date: -1, date_created: -1 });
 
             return res.json(todos);
         } catch (error) {
@@ -40,7 +41,7 @@ module.exports = {
                 toDoId,
                 {
                     $set: {
-                        date: new Date(),
+                        date: moment().format('YYYY-MM-DD'),
                         finished: false,
                         priority: false,
                     },

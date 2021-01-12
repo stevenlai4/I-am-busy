@@ -7,7 +7,7 @@ module.exports = {
             'days'
         );
 
-        if (weatherArr.length > 0 && dateDiff + 1 < 8) {
+        if (weatherArr.length > 0 && dateDiff + 1 >= 0 && dateDiff + 1 < 8) {
             return weatherArr[dateDiff + 1].weather[0].description;
         } else {
             return 'Unknown';

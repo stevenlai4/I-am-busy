@@ -20,6 +20,7 @@ export default function Routes({ setUser }) {
                         path="/login"
                         render={() => <Login setUser={setUser} />}
                     />
+                    <Route path="/user/register" component={Register} />
                     <Route
                         path="/user/todo/update/:todo_id"
                         component={ToDoUpdate}
@@ -27,7 +28,7 @@ export default function Routes({ setUser }) {
                     <Route path="/user/todo/history" component={ToDoHistory} />
                     <Route path="/user/todo/create" component={ToDoCreate} />
                     <Route path="/user/todo" component={UserToDo} />
-                    <Route path="/user/register" component={Register} />
+
                     <Route
                         path="/user/email-confirm"
                         component={ConfirmEmail}

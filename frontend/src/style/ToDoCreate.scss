@@ -1,9 +1,11 @@
 @import './global/variables.scss';
 
 .todo-create {
+    padding-top: 30px;
+
     h1 {
         text-align: center;
-        margin: 30px 0;
+        margin-bottom: 30px;
     }
 
     form {
