@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import '../../style/Login.scss';
 
-export default function Login({ history }) {
+export default function Login({ setUser }) {
+    let history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [warningMsg, setWarningMsg] = useState('');
@@ -16,6 +18,7 @@ export default function Login({ history }) {
         if (userId) {
             sessionStorage.setItem('user', userId);
             sessionStorage.setItem('name', response.data.name);
+            setUser(true);
             history.push('/user/todo');
         } else {
             setWarningMsg(response.data.message);

@@ -5,7 +5,7 @@
     width: 80%;
     background-color: #fff;
     border: 2px solid #000;
-    height: 100vh;
+    height: 100%;
     top: 0px;
     left: -100%;
     z-index: 50;
@@ -33,7 +33,6 @@
 
             .nav-item {
                 padding: 20px 15%;
-                cursor: pointer;
 
                 svg {
                     font-size: 30px;
@@ -87,32 +86,44 @@
 @media screen and (min-width: map-get($breakpoints, desktop)) {
     .navigation {
         left: 0;
-        width: 5%;
+        max-width: 80px;
         border-top: none;
         border-bottom: none;
+        overflow: hidden;
 
         h1 {
             display: none;
         }
 
         .nav-list {
+            width: 400%;
+
             a {
+                width: 100%;
+
                 .nav-item {
                     position: relative;
-                    padding: 20px 0;
-                    margin: 20px 0;
+                    padding: 20px 5%;
 
-                    svg {
-                        width: 100%;
-                        font-size: 35px;
-                        margin-right: 0;
+                    i {
+                        width: 85px;
+
+                        svg {
+                            font-size: 35px;
+                            margin-right: 40px;
+                        }
                     }
 
                     span {
-                        display: none;
+                        font-size: 20px;
+                        vertical-align: bottom;
                     }
                 }
             }
+        }
+
+        &.hover {
+            max-width: 25%;
         }
     }
 }

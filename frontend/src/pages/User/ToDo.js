@@ -8,6 +8,7 @@ export default function ToDo({ history }) {
     const [warningMsg, setWarningMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const [rerender, setRerender] = useState(false);
+    // Weather for Vancouver Only
 
     const user = sessionStorage.getItem('user');
 
@@ -27,17 +28,22 @@ export default function ToDo({ history }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rerender]);
 
+    // Fetch to do data
     const fetchData = async () => {
-        let response = await api.get('/user/todo', {
-            headers: {
-                user_id: user,
-            },
-        });
+        try {
+            let response = await api.get('/user/todo', {
+                headers: {
+                    user_id: user,
+                },
+            });
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-        } else {
-            setToDos(response.data);
+            if (response.data.message) {
+                setWarningMsg(response.data.message);
+            } else {
+                setToDos(response.data);
+            }
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -75,7 +81,6 @@ export default function ToDo({ history }) {
             </div>
             <div className="todo-links">
                 <a href="/user/todo/create">Add New +</a>
-                <a href="/user/todo/history">Browse to do history...</a>
             </div>
         </div>
     );

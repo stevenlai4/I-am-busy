@@ -73,7 +73,6 @@ export default function ToDoHistory({ history }) {
                     toDos.map(createHistoryItem)
                 )}
             </div>
-            <a href="/user/todo">&lt;&lt; Back To Dashboard</a>
         </div>
     );
 }

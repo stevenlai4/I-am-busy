@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
 import { AiOutlineMenu } from 'react-icons/ai';
 import Navigation from './pages/Navigation';
 import Routes from './routes';
@@ -7,12 +6,12 @@ import './style/App.scss';
 
 function App() {
     const [navToggle, setNavToggle] = useState(false);
+    const [, setUser] = useState(false);
 
-    const handleNavBg = (e) => {
+    const handleNavBg = () => {
         if (navToggle) {
             const nav = document.querySelector('.navigation');
 
-            e.target.classList.remove('appear');
             nav.classList.remove('appear');
             setNavToggle((prev) => !prev);
         }
@@ -36,8 +35,8 @@ function App() {
                 className={`nav-bg ${navToggle ? 'appear' : ''}`}
                 onClick={handleNavBg}
             ></div>
-            <Navigation navToggle={navToggle} />
-            <Routes />
+            <Navigation navToggle={navToggle} setUser={setUser} />
+            <Routes setUser={setUser} />
         </div>
     );
 }

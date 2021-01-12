@@ -10,13 +10,16 @@ import Register from './pages/Register';
 import ConfirmEmail from './pages/Register/ConfirmEmail';
 import EmailVerified from './pages/Register/EmailVerified';
 
-export default function Routes() {
+export default function Routes({ setUser }) {
     return (
         <div>
             <BrowserRouter>
                 <Switch>
                     <Route path="/" exact component={Home} />
-                    <Route path="/login" component={Login} />
+                    <Route
+                        path="/login"
+                        render={() => <Login setUser={setUser} />}
+                    />
                     <Route
                         path="/user/todo/update/:todo_id"
                         component={ToDoUpdate}

@@ -3,16 +3,26 @@ import { FaUserAlt } from 'react-icons/fa';
 import {
     AiOutlineUnorderedList,
     AiFillCalendar,
-    AiFillHome,
+    AiOutlineHistory,
 } from 'react-icons/ai';
-import { BiLogOut } from 'react-icons/bi';
+import { BiLogOut, BiLogIn } from 'react-icons/bi';
 import '../style/global/navigation.scss';
 
-export default function Navigation({ navToggle }) {
+export default function Navigation({ navToggle, setUser }) {
     const user = sessionStorage.getItem('user');
 
     return (
-        <div className={`navigation ${navToggle ? 'appear' : ''}`}>
+        <div
+            className={`navigation ${navToggle ? 'appear' : ''}`}
+            onMouseEnter={() => {
+                const nav = document.querySelector('.navigation');
+                nav.classList.add('hover');
+            }}
+            onMouseLeave={() => {
+                const nav = document.querySelector('.navigation');
+                nav.classList.remove('hover');
+            }}
+        >
             <a className="logo" href="/">
                 <h1>I AM BUSY</h1>
             </a>
@@ -21,33 +31,51 @@ export default function Navigation({ navToggle }) {
                     <ul className="nav-list">
                         <a href="/user/todo">
                             <li className="nav-item">
-                                <AiOutlineUnorderedList />
+                                <i>
+                                    <AiOutlineUnorderedList />
+                                </i>
 
                                 <span>TO DO</span>
                             </li>
                         </a>
                         <a href="/user/calendar">
                             <li className="nav-item">
-                                <AiFillCalendar />
+                                <i>
+                                    <AiFillCalendar />
+                                </i>
 
                                 <span>CALENDAR</span>
                             </li>
                         </a>
+                        <a href="/user/todo/history">
+                            <li className="nav-item">
+                                <i>
+                                    <AiOutlineHistory />
+                                </i>
+
+                                <span>HISTORY</span>
+                            </li>
+                        </a>
                         <a href="/user">
                             <li className="nav-item">
-                                <FaUserAlt />
+                                <i>
+                                    <FaUserAlt />
+                                </i>
 
                                 <span>ACCOUNT</span>
                             </li>
                         </a>
-                        <a href="/logout">
+                        <a href="/">
                             <li
                                 className="nav-item"
                                 onClick={() => {
                                     sessionStorage.clear();
+                                    setUser(false);
                                 }}
                             >
-                                <BiLogOut />
+                                <i>
+                                    <BiLogOut />
+                                </i>
                                 <span>SIGN OUT</span>
                             </li>
                         </a>
@@ -56,15 +84,11 @@ export default function Navigation({ navToggle }) {
             ) : (
                 <div>
                     <ul className="nav-list">
-                        <a href="/">
-                            <li className="nav-item">
-                                <AiFillHome />
-                                <span>HOME</span>
-                            </li>
-                        </a>
                         <a href="/login">
                             <li className="nav-item">
-                                <FaUserAlt />
+                                <i>
+                                    <BiLogIn />
+                                </i>
                                 <span>SIGN IN</span>
                             </li>
                         </a>

@@ -7,6 +7,7 @@ import {
 import { FaPen } from 'react-icons/fa';
 import api from '../../services/api';
 import '../../style/ToDoItem.scss';
+import moment from 'moment';
 
 export default function ToDoItem({
     todo,
@@ -15,8 +16,9 @@ export default function ToDoItem({
     setSuccessMsg,
     history,
 }) {
-    const [date, setDate] = useState(new Date(todo.date));
+    const [date, setDate] = useState(todo.date.split('T')[0]);
     const [notification, setNotification] = useState(todo.notification);
+    const [weather, setWeather] = useState(todo.weather);
 
     // Set warning message timeout
     const setWarningMsgTimeout = () => {
@@ -38,8 +40,11 @@ export default function ToDoItem({
             setWarningMsg(response.data.message);
             setWarningMsgTimeout();
         } else {
-            setDate(new Date(response.data.date));
-            setSuccessMsg(`"${todo.title}" date successfully changed`);
+            setDate(response.data.date.split('T')[0]);
+            setWeather(response.data.weather);
+            setSuccessMsg(
+                `"${todo.title}" date & weather successfully changed`
+            );
             setSuccessMsgTimeout();
         }
     };
@@ -130,14 +135,14 @@ export default function ToDoItem({
                 <span className="sm-heading">Date:</span>
                 <input
                     type="date"
-                    min={new Date().toISOString().split('T')[0]}
-                    value={date.toISOString().split('T')[0]}
+                    min={moment().format('YYYY-MM-DD')}
+                    value={date}
                     onChange={handleDateChange}
                 />
             </div>
             <div className="weather">
                 <span className="sm-heading">Weather:</span>
-                <span>Sunny</span>
+                <span>{weather}</span>
             </div>
             <div className="notification">
                 <span className="sm-heading">Notification:</span>

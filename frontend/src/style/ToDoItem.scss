@@ -22,6 +22,12 @@
         }
     }
 
+    .weather {
+        span {
+            text-transform: capitalize;
+        }
+    }
+
     .sm-heading {
         font-weight: 700;
         margin-right: 10px;

@@ -1,5 +1,23 @@
 const UserToDo = require('../models/UserToDo');
 const User = require('../models/User');
+const fetch = require('node-fetch');
+const weather = require('../api/weather');
+
+// Fetch weather api
+const weatherApi = `https://api.openweathermap.org/data/2.5/onecall?lat=49.246292&lon=-123.116226&exclude=hourly,minutely,alerts&appid=${process.env.OPEN_WEATHER_API}`;
+var weatherArr = [];
+
+async function fetchWeatherApi() {
+    try {
+        await fetch(weatherApi)
+            .then((res) => res.json())
+            .then((json) => (weatherArr = json.daily));
+    } catch (error) {
+        throw Error(`Error while fetching weather data: ${error}`);
+    }
+}
+
+fetchWeatherApi();
 
 module.exports = {
     async createUserToDo(req, res) {
@@ -64,7 +82,14 @@ module.exports = {
                 finished: false,
             }).sort({ priority: -1, date_created: -1 });
 
-            return res.json(todos);
+            let todosWithWeather = todos.map((todo) => {
+                return {
+                    ...todo._doc,
+                    weather: weather.getWeatherApi(weatherArr, todo.date),
+                };
+            });
+
+            return res.json(todosWithWeather);
         } catch (error) {
             throw Error(`Error while getting all user to dos : ${error}`);
         }
@@ -149,7 +174,12 @@ module.exports = {
                 { new: true, useFindAndModify: false }
             );
 
-            return res.json(todo);
+            const todoWithWeather = {
+                ...todo._doc,
+                weather: weather.getWeatherApi(weatherArr, todo.date),
+            };
+
+            return res.json(todoWithWeather);
         } catch (error) {
             throw Error(`Error while updating a user to do date : ${error}`);
         }
