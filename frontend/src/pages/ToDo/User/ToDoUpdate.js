@@ -1,18 +1,45 @@
-import React, { useState } from 'react';
-import api from '../../services/api';
-import '../../style/ToDoCreate.scss';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import api from '../../../services/api';
+import '../../../style/ToDoUpdate.scss';
 
-export default function ToDoCreate({ history }) {
+export default function ToDoUpdate({ history }) {
     const [title, setTitle] = useState('');
-    const [date, setDate] = useState();
+    const [date, setDate] = useState(new Date());
     const [notification, setNotification] = useState(false);
     const [warningMsg, setWarningMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
+    const { todo_id } = useParams();
+
     const user = sessionStorage.getItem('user');
 
     if (!user) {
-        history.push('./login');
+        history.push('/login');
     }
+
+    useEffect(() => {
+        fetchToDoData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const fetchToDoData = async () => {
+        try {
+            let response = await api.get(`user/todo/${todo_id}`);
+
+            if (response.data.message) {
+                setWarningMsg(response.data.message);
+                setWarningMsgTimeout();
+            } else {
+                setTitle(response.data.title);
+                setDate(
+                    new Date(response.data.date).toISOString().split('T')[0]
+                );
+                setNotification(response.data.notification);
+            }
+        } catch (error) {
+            throw Error(`Error while fetching to do data : ${error}`);
+        }
+    };
 
     // Set warning message timeout
     const setWarningMsgTimeout = () => {
@@ -42,28 +69,24 @@ export default function ToDoCreate({ history }) {
             return;
         }
 
-        let response = await api.post(
-            '/user/todo/create',
-            {
-                title,
-                date,
-                notification,
-            },
-            { headers: { user_id: user } }
-        );
+        let response = await api.put(`/user/todo/update/${todo_id}`, {
+            title,
+            date,
+            notification,
+        });
 
         if (response.data.message) {
             setWarningMsg(response.data.message);
             setWarningMsgTimeout();
         } else {
-            setSuccessMsg(`"${title}" item added successfully`);
+            setSuccessMsg(`"${title}" updated successfully`);
             setSuccessMsgTimeout();
         }
     };
 
     return (
-        <div className="todo-create">
-            <h1>To Do Creation</h1>
+        <div className="todo-update">
+            <h1>To Do Update</h1>
             {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
             {successMsg ? <p className="success-msg">{successMsg}</p> : ''}
             <form onSubmit={handleSubmit}>
@@ -73,6 +96,7 @@ export default function ToDoCreate({ history }) {
                         id="title"
                         type="text"
                         name="title"
+                        value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
@@ -83,6 +107,7 @@ export default function ToDoCreate({ history }) {
                         type="date"
                         name="date"
                         min={new Date().toISOString().split('T')[0]}
+                        value={date}
                         onChange={(e) => setDate(e.target.value)}
                     />
                 </div>
@@ -92,10 +117,11 @@ export default function ToDoCreate({ history }) {
                         id="notification"
                         type="checkbox"
                         name="notification"
+                        defaultChecked={notification}
                         onChange={(e) => setNotification(e.target.checked)}
                     />
                 </div>
-                <input type="submit" value="Add" />
+                <input type="submit" value="Update" />
             </form>
             <a href="/user/todo">&lt;&lt; Back To Dashboard</a>
         </div>

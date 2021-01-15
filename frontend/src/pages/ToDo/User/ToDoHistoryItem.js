@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdRestore } from 'react-icons/md';
-import api from '../../services/api';
-import '../../style/ToDoHistoryItem.scss';
+import api from '../../../services/api';
+import '../../../style/ToDoHistoryItem.scss';
 
 export default function ToDoHistoryItem({
     todo,

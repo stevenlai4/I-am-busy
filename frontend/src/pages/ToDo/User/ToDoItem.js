@@ -5,8 +5,8 @@ import {
     AiOutlineCloseCircle,
 } from 'react-icons/ai';
 import { FaPen } from 'react-icons/fa';
-import api from '../../services/api';
-import '../../style/ToDoItem.scss';
+import api from '../../../services/api';
+import '../../../style/ToDoItem.scss';
 import moment from 'moment';
 
 export default function ToDoItem({
