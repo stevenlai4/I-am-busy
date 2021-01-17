@@ -1,0 +1,36 @@
+@import './global/mixins.scss';
+
+.calendar {
+    padding-top: 70px;
+
+    .year-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 2px solid #000;
+        padding: 10px 5px;
+
+        .year {
+            font-size: 30px;
+            margin-bottom: 0;
+        }
+
+        i {
+            font-size: 25px;
+        }
+    }
+
+    .weekdays {
+        border-right: 2px solid #000;
+        border-left: 2px solid #000;
+
+        @include grid-creator(1, repeat(7, 1fr), 7, 0px, 0px);
+    }
+
+    .days {
+        border-left: 2px solid #000;
+        border-bottom: 2px solid #000;
+
+        @include grid-creator(1, repeat(7, 1fr), 7, 0px, 0px);
+    }
+}

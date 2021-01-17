@@ -9,6 +9,7 @@ import ToDoHistory from './pages/ToDo/User/ToDoHistory';
 import Register from './pages/Register';
 import ConfirmEmail from './pages/Register/ConfirmEmail';
 import EmailVerified from './pages/Register/EmailVerified';
+import UserCalendar from './pages/Calendar/UserCalendar';
 
 export default function Routes({ setUser }) {
     return (
@@ -28,7 +29,7 @@ export default function Routes({ setUser }) {
                     <Route path="/user/todo/history" component={ToDoHistory} />
                     <Route path="/user/todo/create" component={ToDoCreate} />
                     <Route path="/user/todo" component={UserToDo} />
-
+                    <Route path="/user/calendar" component={UserCalendar} />
                     <Route
                         path="/user/email-confirm"
                         component={ConfirmEmail}

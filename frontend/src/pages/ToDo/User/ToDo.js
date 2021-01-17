@@ -4,12 +4,13 @@ import ToDoItem from './ToDoItem';
 import '../../../style/ToDo.scss';
 
 export default function ToDo({ history }) {
+    // States
     const [toDos, setToDos] = useState([]);
     const [warningMsg, setWarningMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const [rerender, setRerender] = useState(false);
-    // Weather for Vancouver Only
 
+    // Variables/Constants
     const user = sessionStorage.getItem('user');
 
     if (!user) {

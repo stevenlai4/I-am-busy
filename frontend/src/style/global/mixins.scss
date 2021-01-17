@@ -1,0 +1,24 @@
+// Grid Creator
+@mixin grid-creator($rows, $cols, $max-col-each-row, $row-gap, $col-gap) {
+    display: grid;
+    grid-template-rows: $rows;
+    grid-template-columns: $cols;
+    grid-row-gap: $row-gap;
+    grid-column-gap: $col-gap;
+
+    @for $i from 1 through $rows {
+        @for $j from 1 through $max-col-each-row {
+            @if $i > 1 {
+                .col-#{$j + $max-col-each-row} {
+                    grid-row: $i / #{$i + 1};
+                    grid-column: $j/ #{$j + 1};
+                }
+            } @else {
+                .col-#{$j} {
+                    grid-row: $i / #{$i + 1};
+                    grid-column: $j/ #{$j + 1};
+                }
+            }
+        }
+    }
+}
