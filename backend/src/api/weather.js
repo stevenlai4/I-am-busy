@@ -3,7 +3,7 @@ const moment = require('moment');
 module.exports = {
     getWeatherApi(weatherData, date) {
         let dateDiff = moment(date.toISOString().split('T')[0]).diff(
-            moment(new Date().toISOString().split('T')[0]),
+            moment(),
             'days'
         );
 

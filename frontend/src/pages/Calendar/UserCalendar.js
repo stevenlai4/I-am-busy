@@ -5,9 +5,10 @@ import Weekday from './Weekday';
 import Day from './Day';
 import EmptyDay from './EmptyDay';
 import { doomsdays, monthsAbbr, weekdays } from '../../data/Calendar';
+import api from '../../services/api';
 import '../../style/Calendar.scss';
 
-export default function UserCalendar() {
+export default function UserCalendar({ history }) {
     // Variables/Constants
     const TOTAL_CALENDAR_BOX = 42;
     const user = sessionStorage.getItem('user');
@@ -15,6 +16,8 @@ export default function UserCalendar() {
     // States
     const [year, setYear] = useState(0);
     const [monthIndex, setMonthIndex] = useState(0);
+    const [toDos, setToDos] = useState([]);
+    const [warningMsg, setWarningMsg] = useState('');
 
     if (!user) {
         history.push('/login');
@@ -24,7 +27,28 @@ export default function UserCalendar() {
     useEffect(() => {
         setYear(moment().year());
         setMonthIndex(moment().month());
+        fetchUserToDos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // Fetch to do data
+    const fetchUserToDos = async () => {
+        try {
+            let response = await api.get('/user/todo', {
+                headers: {
+                    user_id: user,
+                },
+            });
+
+            if (response.data.message) {
+                setWarningMsg(response.data.message);
+            } else {
+                setToDos(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     // Handle next month btn click
     const handleNextMonth = () => {
@@ -135,7 +159,13 @@ export default function UserCalendar() {
             // Create day boxes
             for (let day = 0; day < 31; day++) {
                 days.push(
-                    <Day key={`month${monthIndex}-day${day}`} day={day + 1} />
+                    <Day
+                        key={`${year}/${monthIndex}/${day}`}
+                        todos={toDos}
+                        year={year}
+                        month={monthIndex}
+                        day={day + 1}
+                    />
                 );
             }
             // Create empty day boxes
@@ -158,7 +188,10 @@ export default function UserCalendar() {
                 for (let day = 0; day < 29; day++) {
                     days.push(
                         <Day
-                            key={`month${monthIndex}-day${day}`}
+                            key={`${year}/${monthIndex}/${day}`}
+                            todos={toDos}
+                            year={year}
+                            month={monthIndex}
                             day={day + 1}
                         />
                     );
@@ -184,7 +217,10 @@ export default function UserCalendar() {
                 for (let day = 0; day < 28; day++) {
                     days.push(
                         <Day
-                            key={`month${monthIndex}-day${day}`}
+                            key={`${year}/${monthIndex}/${day}`}
+                            todos={toDos}
+                            year={year}
+                            month={monthIndex}
                             day={day + 1}
                         />
                     );
@@ -208,7 +244,13 @@ export default function UserCalendar() {
             // Create day boxes
             for (let day = 0; day < 30; day++) {
                 days.push(
-                    <Day key={`month${monthIndex}-day${day}`} day={day + 1} />
+                    <Day
+                        key={`${year}/${monthIndex}/${day}`}
+                        todos={toDos}
+                        year={year}
+                        month={monthIndex}
+                        day={day + 1}
+                    />
                 );
             }
             // Create empty day boxes
@@ -226,6 +268,7 @@ export default function UserCalendar() {
 
     return (
         <div className="calendar">
+            {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
             <div className="year-container">
                 <i onClick={handlePrevMonth}>
                     <BiLeftArrow />

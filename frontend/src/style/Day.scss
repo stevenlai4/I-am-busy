@@ -1,13 +1,55 @@
 @import './global/variables.scss';
 
 .day {
+    position: relative;
     border-top: 2px solid #000;
     border-right: 2px solid #000;
     height: 44px;
+    padding-top: 30px;
+
+    .day-num {
+        position: absolute;
+        margin-bottom: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &.today {
+            // background-color: #ea4335;
+            color: #ea4335;
+            font-weight: 900;
+            // border-radius: 50%;
+            // width: 24px;
+            // height: 24px;
+            // text-align: center;
+        }
+    }
+
+    .day-item-container {
+        display: none;
+    }
 }
 
 @media screen and (min-width: map-get($breakpoints, tablet)) {
     .day {
-        height: 90px;
+        height: 95px;
+
+        .day-num {
+            top: 2px;
+            left: 5px;
+            transform: none;
+        }
+
+        .day-item-container {
+            height: 100%;
+            display: block;
+            overflow: auto;
+        }
+    }
+}
+
+@media screen and (min-width: map-get($breakpoints, desktop)) {
+    .day {
+        height: 100px;
     }
 }

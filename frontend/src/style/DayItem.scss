@@ -1,0 +1,9 @@
+@import './global/mixins.scss';
+
+.day-item {
+    .title {
+        @include cutParagraph(1);
+        margin-bottom: 0;
+        padding-left: 5px;
+    }
+}

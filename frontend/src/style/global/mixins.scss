@@ -22,3 +22,11 @@
         }
     }
 }
+
+//Cut paragraph by line
+@mixin cutParagraph($lineNum) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lineNum;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
