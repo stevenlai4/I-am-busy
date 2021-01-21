@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import api from '../../../services/api';
 import '../../../style/ToDoCreate.scss';
 
@@ -42,22 +43,22 @@ export default function ToDoCreate({ history }) {
             return;
         }
 
-        let response = await api.post(
-            '/user/todo/create',
-            {
-                title,
-                date,
-                notification,
-            },
-            { headers: { user_id: user } }
-        );
+        try {
+            await api.post(
+                '/user/todo/create',
+                {
+                    title,
+                    date,
+                    notification,
+                },
+                { headers: { user_id: user } }
+            );
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-            setWarningMsgTimeout();
-        } else {
             setSuccessMsg(`"${title}" item added successfully`);
             setSuccessMsgTimeout();
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 
@@ -82,7 +83,7 @@ export default function ToDoCreate({ history }) {
                         id="date"
                         type="date"
                         name="date"
-                        min={new Date().toISOString().split('T')[0]}
+                        min={moment().format('YYYY-MM-DD')}
                         onChange={(e) => setDate(e.target.value)}
                     />
                 </div>

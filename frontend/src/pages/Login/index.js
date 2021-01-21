@@ -12,16 +12,18 @@ export default function Login({ setUser }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await api.post('/login', { email, password });
-        const userId = response.data._id || false;
+        try {
+            const response = await api.post('/login', { email, password });
+            const userId = response.data._id || false;
 
-        if (userId) {
-            sessionStorage.setItem('user', userId);
-            sessionStorage.setItem('name', response.data.name);
-            setUser(true);
-            history.push('/user/todo');
-        } else {
-            setWarningMsg(response.data.message);
+            if (userId) {
+                sessionStorage.setItem('user', userId);
+                sessionStorage.setItem('name', response.data.name);
+                setUser(true);
+                history.push('/user/todo');
+            }
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
         }
     };
 

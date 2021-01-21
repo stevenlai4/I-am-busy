@@ -22,25 +22,6 @@ export default function ToDoUpdate({ history }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const fetchToDoData = async () => {
-        try {
-            let response = await api.get(`user/todo/${todo_id}`);
-
-            if (response.data.message) {
-                setWarningMsg(response.data.message);
-                setWarningMsgTimeout();
-            } else {
-                setTitle(response.data.title);
-                setDate(
-                    new Date(response.data.date).toISOString().split('T')[0]
-                );
-                setNotification(response.data.notification);
-            }
-        } catch (error) {
-            throw Error(`Error while fetching to do data : ${error}`);
-        }
-    };
-
     // Set warning message timeout
     const setWarningMsgTimeout = () => {
         setTimeout(() => setWarningMsg(''), 3000);
@@ -49,6 +30,19 @@ export default function ToDoUpdate({ history }) {
     // Set successful message timeout
     const setSuccessMsgTimeout = () => {
         setTimeout(() => setSuccessMsg(''), 3000);
+    };
+
+    const fetchToDoData = async () => {
+        try {
+            let response = await api.get(`user/todo/${todo_id}`);
+
+            setTitle(response.data.title);
+            setDate(new Date(response.data.date).toISOString().split('T')[0]);
+            setNotification(response.data.notification);
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -69,18 +63,18 @@ export default function ToDoUpdate({ history }) {
             return;
         }
 
-        let response = await api.put(`/user/todo/update/${todo_id}`, {
-            title,
-            date,
-            notification,
-        });
+        try {
+            await api.put(`/user/todo/update/${todo_id}`, {
+                title,
+                date,
+                notification,
+            });
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-            setWarningMsgTimeout();
-        } else {
             setSuccessMsg(`"${title}" updated successfully`);
             setSuccessMsgTimeout();
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 

@@ -40,13 +40,9 @@ export default function UserCalendar({ history }) {
                 },
             });
 
-            if (response.data.message) {
-                setWarningMsg(response.data.message);
-            } else {
-                setToDos(response.data);
-            }
+            setToDos(response.data);
         } catch (error) {
-            console.log(error);
+            setWarningMsg(error.response.data.message);
         }
     };
 

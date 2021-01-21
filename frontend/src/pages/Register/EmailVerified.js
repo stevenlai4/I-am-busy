@@ -15,15 +15,15 @@ export default function EmailVerified() {
     }, []);
 
     const handleEmailVerification = async () => {
-        const response = await api.get('/user/verify-email', {
-            headers: { email_token: token },
-        });
+        try {
+            const response = await api.get('/user/verify-email', {
+                headers: { email_token: token },
+            });
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-        } else {
             setIsVerified(true);
             setUserName(response.data.name);
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
         }
     };
 

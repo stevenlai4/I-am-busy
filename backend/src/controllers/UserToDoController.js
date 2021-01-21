@@ -28,7 +28,7 @@ module.exports = {
             const user = await User.findById(user_id);
 
             if (!user) {
-                return res.json({
+                return res.stauts(400).json({
                     message: 'User does not exist',
                 });
             }
@@ -58,7 +58,7 @@ module.exports = {
                 return res.json(todo);
             }
 
-            return res.json({
+            return res.status(400).json({
                 message: 'User to do item does not exist',
             });
         } catch (error) {
@@ -72,7 +72,7 @@ module.exports = {
             const user = await User.findById(user_id);
 
             if (!user) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User does not exist',
                 });
             }
@@ -102,7 +102,7 @@ module.exports = {
             var todo = await UserToDo.findById(toDoId);
 
             if (!todo) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -131,7 +131,7 @@ module.exports = {
             var todo = await UserToDo.findById(toDoId);
 
             if (!todo) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -159,7 +159,7 @@ module.exports = {
             var todo = await UserToDo.findById(toDoId);
 
             if (!todo) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -192,7 +192,7 @@ module.exports = {
             var todo = await UserToDo.findById(toDoId);
 
             if (!todo) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -222,7 +222,7 @@ module.exports = {
             var todo = await UserToDo.findById(toDoId);
 
             if (!todo) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User to do item does not exist',
                 });
             }
@@ -254,7 +254,7 @@ module.exports = {
                 return res.status(204).send();
             }
 
-            return res.json({
+            return res.status(400).json({
                 message: 'User to do item does not exist',
             });
         } catch (error) {

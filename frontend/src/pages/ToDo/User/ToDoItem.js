@@ -32,34 +32,31 @@ export default function ToDoItem({
 
     // Handle date change
     const handleDateChange = async (e) => {
-        let response = await api.put(`/user/todo/update/date/${todo._id}`, {
-            date: e.target.value,
-        });
+        try {
+            let response = await api.put(`/user/todo/update/date/${todo._id}`, {
+                date: e.target.value,
+            });
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-            setWarningMsgTimeout();
-        } else {
             setDate(response.data.date.split('T')[0]);
             setWeather(response.data.weather);
             setSuccessMsg(
                 `"${todo.title}" date & weather successfully changed`
             );
             setSuccessMsgTimeout();
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 
     // Handle notification change
     const handleNotificationChange = async (e) => {
-        let response = await api.put(
-            `/user/todo/update/notification/${todo._id}`,
-            { notification: e.target.checked }
-        );
+        try {
+            let response = await api.put(
+                `/user/todo/update/notification/${todo._id}`,
+                { notification: e.target.checked }
+            );
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-            setWarningMsgTimeout();
-        } else {
             setNotification(response.data.notification);
 
             if (response.data.notification) {
@@ -69,38 +66,44 @@ export default function ToDoItem({
             }
 
             setSuccessMsgTimeout();
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 
     // Handle finished to do
     const handleFinishToDo = async () => {
-        let response = await api.put(`/user/todo/update/finish/${todo._id}`);
+        try {
+            await api.put(`/user/todo/update/finish/${todo._id}`);
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-            setWarningMsgTimeout();
-        } else {
             setRerender((prev) => !prev);
             setSuccessMsg(`"${todo.title}" finished`);
             setSuccessMsgTimeout();
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 
     // Handle priority change
     const handlePriorityChange = async () => {
-        let response = await api.put(`/user/todo/update/priority/${todo._id}`, {
-            priority: !todo.priority,
-        });
+        try {
+            let response = await api.put(
+                `/user/todo/update/priority/${todo._id}`,
+                {
+                    priority: !todo.priority,
+                }
+            );
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-            setWarningMsgTimeout();
-        } else {
             setRerender((prev) => !prev);
             if (response.data.priority) {
                 setSuccessMsg(`"${todo.title}" prioritized`);
                 setSuccessMsgTimeout();
             }
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 
@@ -114,14 +117,15 @@ export default function ToDoItem({
             return;
         }
 
-        let response = await api.delete(`/user/todo/${todo._id}`);
+        try {
+            await api.delete(`/user/todo/${todo._id}`);
 
-        if (response.data.message) {
-            setWarningMsg(response.data.message);
-        } else {
             setRerender((prev) => !prev);
             setSuccessMsg(`"${todo.title}" successfully deleted`);
             setSuccessMsgTimeout();
+        } catch (error) {
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 

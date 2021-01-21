@@ -54,8 +54,7 @@ module.exports = {
                 try {
                     await sgMail.send(msg);
                 } catch (error) {
-                    console.log(error);
-                    return res.json({
+                    return res.status(400).json({
                         message:
                             'Error while sending a confirmation email. Please contact us for assistance.',
                     });
@@ -69,7 +68,7 @@ module.exports = {
                 });
             }
 
-            return res.json({
+            return res.status(400).json({
                 message: 'Email already exists',
             });
         } catch (error) {
@@ -83,7 +82,7 @@ module.exports = {
             const user = await User.findOne({ emailToken: email_token });
 
             if (!user) {
-                return res.json({
+                return res.status(400).json({
                     message: 'Token invalid. Please contact us for assistance.',
                 });
             }
@@ -98,7 +97,7 @@ module.exports = {
                 name: user.name,
             });
         } catch (error) {
-            return res.json({
+            return res.status(400).json({
                 message:
                     'Something went wrong. Please contact us for assistance.',
             });
@@ -120,7 +119,7 @@ module.exports = {
                 });
             }
 
-            return res.json({
+            return res.status(400).json({
                 message: 'User does not exist',
             });
         } catch (error) {
@@ -134,7 +133,7 @@ module.exports = {
         try {
             var user = await User.findById(user_id);
             if (!user) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User does not exist',
                 });
             }
@@ -163,7 +162,7 @@ module.exports = {
                 });
             }
 
-            return res.json({
+            return res.status(400).json({
                 message: 'Email already exists',
             });
         } catch (error) {

@@ -10,7 +10,7 @@ module.exports = {
             const user = await User.findById(user_id);
 
             if (!user) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User does not exist',
                 });
             }
@@ -32,7 +32,7 @@ module.exports = {
             var todo = await UserToDo.findById(toDoId);
 
             if (!todo) {
-                return res.json({
+                return res.status(400).json({
                     message: 'User to do item does not exist',
                 });
             }

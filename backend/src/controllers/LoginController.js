@@ -6,7 +6,7 @@ module.exports = {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(200).json({
+            return res.status(400).json({
                 message: 'Email/password field missing',
             });
         }
@@ -15,7 +15,7 @@ module.exports = {
             const user = await User.findOne({ email });
 
             if (user && !user.emailConfirmed) {
-                return res.json({
+                return res.status(400).json({
                     message:
                         'Email not confirmed. Please confirm your email first.',
                 });
@@ -28,7 +28,7 @@ module.exports = {
                 });
             }
 
-            return res.json({
+            return res.status(400).json({
                 message: 'Email or password does not match',
             });
         } catch (error) {

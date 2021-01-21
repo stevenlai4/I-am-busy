@@ -12,13 +12,6 @@ export default function Day({ day, year, month, todos }) {
             date.month() === month &&
             date.date() === day
         ) {
-            // const dayElement = document.getElementById(
-            //     `${year}/${month}/${day}`
-            // );
-
-            // console.log(dayElement);
-            // dayElement.style.backgroundColor = '#dff28f';
-
             return <DayItem key={index} todo={todo} />;
         }
     };

@@ -21,18 +21,14 @@ export default function ToDoHistoryItem({
 
     const handleToDoRestore = async () => {
         try {
-            let response = await api.put(`/user/todo/history/${todo._id}`);
+            await api.put(`/user/todo/history/${todo._id}`);
 
-            if (response.data.message) {
-                setWarningMsg(response.data.message);
-                setWarningMsgTimeout();
-            } else {
-                setRerender((prev) => !prev);
-                setSuccessMsg(`${todo.title} successfully restored`);
-                setSuccessMsgTimeout();
-            }
+            setRerender((prev) => !prev);
+            setSuccessMsg(`${todo.title} successfully restored`);
+            setSuccessMsgTimeout();
         } catch (error) {
-            console.log(error);
+            setWarningMsg(error.response.data.message);
+            setWarningMsgTimeout();
         }
     };
 
