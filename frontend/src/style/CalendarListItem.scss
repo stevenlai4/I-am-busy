@@ -1,0 +1,19 @@
+.calendar-list-item {
+    padding: 15px 0;
+    border-bottom: 1px solid black;
+
+    .title,
+    .date,
+    .weather {
+        display: flex;
+
+        p {
+            margin-bottom: 12px;
+        }
+
+        & p:first-child {
+            font-weight: 700;
+            margin-right: 10px;
+        }
+    }
+}

@@ -3,7 +3,7 @@ import '../../style/Day.scss';
 import moment from 'moment';
 import DayItem from './DayItem';
 
-export default function Day({ day, year, month, todos }) {
+export default function Day({ day, year, month, todos, setSelectedDate }) {
     const createDayItems = (todo, index) => {
         const date = moment(todo.date.split('T')[0]);
 
@@ -50,6 +50,9 @@ export default function Day({ day, year, month, todos }) {
             className="day"
             style={{
                 backgroundColor: hasItem() ? '#dff28f' : 'transparent',
+            }}
+            onClick={() => {
+                setSelectedDate(new Date(year, month, day));
             }}
         >
             <p className={`day-num ${isToday() ? 'today' : ''}`}>{day}</p>

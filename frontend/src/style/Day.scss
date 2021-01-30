@@ -6,6 +6,7 @@
     border-right: 2px solid #000;
     height: 44px;
     padding-top: 30px;
+    cursor: pointer;
 
     .day-num {
         position: absolute;
@@ -51,5 +52,6 @@
 @media screen and (min-width: map-get($breakpoints, desktop)) {
     .day {
         height: 100px;
+        cursor: default;
     }
 }

@@ -70,7 +70,7 @@ const CalFunc = {
             );
         }
     },
-    createCalDates(toDos, year, monthIndex) {
+    createCalDates(toDos, year, monthIndex, setSelectedDate) {
         let days = [];
 
         if (
@@ -99,6 +99,7 @@ const CalFunc = {
                         year={year}
                         month={monthIndex}
                         day={day + 1}
+                        setSelectedDate={setSelectedDate}
                     />
                 );
             }
@@ -134,6 +135,7 @@ const CalFunc = {
                             year={year}
                             month={monthIndex}
                             day={day + 1}
+                            setSelectedDate={setSelectedDate}
                         />
                     );
                 }
@@ -170,6 +172,7 @@ const CalFunc = {
                             year={year}
                             month={monthIndex}
                             day={day + 1}
+                            setSelectedDate={setSelectedDate}
                         />
                     );
                 }
@@ -205,6 +208,7 @@ const CalFunc = {
                         year={year}
                         month={monthIndex}
                         day={day + 1}
+                        setSelectedDate={setSelectedDate}
                     />
                 );
             }

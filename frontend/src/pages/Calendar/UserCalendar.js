@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi';
 import Weekday from './Weekday';
+import CalListItem from './CalListItem';
 import CalFunc from '../../functions/Calendar';
 import { monthsAbbr, weekdays } from '../../data/Calendar';
 import api from '../../services/api';
@@ -16,6 +17,9 @@ export default function UserCalendar({ history }) {
     const [monthIndex, setMonthIndex] = useState(0);
     const [toDos, setToDos] = useState([]);
     const [warningMsg, setWarningMsg] = useState('');
+    const [selectedDate, setSelectedDate] = useState(
+        new Date(moment().format('YYYY-MM-DD'))
+    );
 
     if (!user) {
         history.push('/login');
@@ -70,23 +74,46 @@ export default function UserCalendar({ history }) {
     };
 
     return (
-        <div className="calendar">
-            {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
-            <div className="year-container">
-                <i onClick={handlePrevMonth}>
-                    <BiLeftArrow />
-                </i>
-                <p className="year">
-                    {year} {monthsAbbr[monthIndex]}
-                </p>
-                <i onClick={handleNextMonth}>
-                    <BiRightArrow />
-                </i>
+        <>
+            <div className="calendar">
+                {warningMsg ? <p className="warning-msg">{warningMsg}</p> : ''}
+                <div className="year-container">
+                    <i onClick={handlePrevMonth}>
+                        <BiLeftArrow />
+                    </i>
+                    <p className="year">
+                        {year} {monthsAbbr[monthIndex]}
+                    </p>
+                    <i onClick={handleNextMonth}>
+                        <BiRightArrow />
+                    </i>
+                </div>
+                <div className="weekdays">{weekdays.map(createWeekDays)}</div>
+                <div className="days">
+                    {CalFunc.createCalDates(
+                        toDos,
+                        year,
+                        monthIndex,
+                        setSelectedDate
+                    )}
+                </div>
             </div>
-            <div className="weekdays">{weekdays.map(createWeekDays)}</div>
-            <div className="days">
-                {CalFunc.createCalDates(toDos, year, monthIndex)}
+            <div className="calendar-item-list">
+                {toDos.map((todo) => {
+                    const date = moment(todo.date.split('T')[0]);
+                    const targetedDate = moment(
+                        selectedDate.toISOString().split('T')[0]
+                    );
+
+                    if (
+                        date.year() === targetedDate.year() &&
+                        date.month() === targetedDate.month() &&
+                        date.date() === targetedDate.date()
+                    ) {
+                        return <CalListItem todo={todo} />;
+                    }
+                })}
             </div>
-        </div>
+        </>
     );
 }
