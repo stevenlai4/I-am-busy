@@ -29,8 +29,29 @@ export default function Day({ day, year, month, todos }) {
         return false;
     };
 
+    const hasItem = () => {
+        for (let i = 0; i < todos.length; i++) {
+            const date = moment(todos[i].date.split('T')[0]);
+
+            if (
+                date.year() === year &&
+                date.month() === month &&
+                date.date() === day
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
     return (
-        <div className="day">
+        <div
+            className="day"
+            style={{
+                backgroundColor: hasItem() ? '#dff28f' : 'transparent',
+            }}
+        >
             <p className={`day-num ${isToday() ? 'today' : ''}`}>{day}</p>
             <div className="day-item-container">
                 {todos.map(createDayItems)}
