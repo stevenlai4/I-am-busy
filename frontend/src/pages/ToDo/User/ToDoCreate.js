@@ -51,7 +51,7 @@ export default function ToDoCreate({ history }) {
                     date,
                     notification,
                 },
-                { headers: { user_id: user } }
+                { headers: { user: user } }
             );
 
             setSuccessMsg(`"${title}" item added successfully`);

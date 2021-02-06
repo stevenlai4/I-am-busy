@@ -16,18 +16,17 @@
         transform: translate(-50%, -50%);
 
         &.today {
-            // background-color: #ea4335;
             color: #ea4335;
             font-weight: 900;
-            // border-radius: 50%;
-            // width: 24px;
-            // height: 24px;
-            // text-align: center;
         }
     }
 
     .day-item-container {
         display: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 }
 

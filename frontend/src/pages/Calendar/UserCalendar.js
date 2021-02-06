@@ -38,7 +38,7 @@ export default function UserCalendar({ history }) {
         try {
             let response = await api.get('/user/todo', {
                 headers: {
-                    user_id: user,
+                    user: user,
                 },
             });
 
@@ -110,8 +110,10 @@ export default function UserCalendar({ history }) {
                         date.month() === targetedDate.month() &&
                         date.date() === targetedDate.date()
                     ) {
-                        return <CalListItem todo={todo} />;
+                        return <CalListItem key={todo._id} todo={todo} />;
                     }
+
+                    return null;
                 })}
             </div>
         </>

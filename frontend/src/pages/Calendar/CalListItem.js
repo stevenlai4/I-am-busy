@@ -4,7 +4,7 @@ import '../../style/CalendarListItem.scss';
 export default function CalListItem({ todo }) {
     return (
         <div className="calendar-list-item">
-            <div class="title">
+            <div className="title">
                 <p>Title: </p>
                 <p>{todo.title}</p>
             </div>

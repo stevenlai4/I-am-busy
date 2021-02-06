@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 // Need this for sendgrid
 require('dotenv').config();
@@ -60,12 +61,7 @@ module.exports = {
                     });
                 }
 
-                return res.json({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    mobile: user.mobile,
-                });
+                return res.sendStatus(200);
             }
 
             return res.status(400).json({
@@ -103,70 +99,79 @@ module.exports = {
             });
         }
     },
-    async getUserById(req, res) {
-        const { user_id } = req.headers;
+    getUserById(req, res) {
+        jwt.verify(req.token, 'secret', async (err, authData) => {
+            if (err) {
+                res.sendStatus(401);
+            } else {
+                try {
+                    const user = await User.findById(authData.user._id);
 
-        try {
-            const user = await User.findById(user_id);
+                    if (user) {
+                        return res.json({
+                            _id: user._id,
+                            name: user.name,
+                            email: user.email,
+                            mobile: user.mobile,
+                            team: user.team,
+                        });
+                    }
 
-            if (user) {
-                return res.json({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    mobile: user.mobile,
-                    team: user.team,
-                });
+                    return res.status(400).json({
+                        message: 'User does not exist',
+                    });
+                } catch (error) {
+                    throw Error(`Error while getting a user : ${error}`);
+                }
             }
-
-            return res.status(400).json({
-                message: 'User does not exist',
-            });
-        } catch (error) {
-            throw Error(`Error while getting a user : ${error}`);
-        }
+        });
     },
-    async updateUser(req, res) {
-        const { user_id } = req.headers;
-        const { name, email, password, mobile } = req.body;
+    updateUser(req, res) {
+        jwt.verify(req.token, 'secret', async (err, authData) => {
+            if (err) {
+                res.sendStatus(401);
+            } else {
+                const { name, email, password, mobile } = req.body;
 
-        try {
-            var user = await User.findById(user_id);
-            if (!user) {
-                return res.status(400).json({
-                    message: 'User does not exist',
-                });
+                try {
+                    var user = await User.findById(authData.user._id);
+                    if (!user) {
+                        return res.status(400).json({
+                            message: 'User does not exist',
+                        });
+                    }
+
+                    const existentEmail = await User.findOne({ email });
+
+                    if (!existentEmail || user.email === email) {
+                        const hashedPassword = await bcrypt.hash(password, 10);
+
+                        user = await User.findByIdAndUpdate(
+                            authData.user._id,
+                            {
+                                name,
+                                email,
+                                password: hashedPassword,
+                                mobile,
+                            },
+                            { new: true, useFindAndModify: false }
+                        );
+
+                        return res.json({
+                            _id: authData.user._id,
+                            name: user.name,
+                            email: user.email,
+                            mobile: user.mobile,
+                        });
+                    }
+
+                    return res.status(400).json({
+                        message: 'Email already exists',
+                    });
+                } catch (error) {
+                    throw Error(`Error while updating a user : ${error}`);
+                }
             }
-
-            const existentEmail = await User.findOne({ email });
-
-            if (!existentEmail || user.email === email) {
-                const hashedPassword = await bcrypt.hash(password, 10);
-
-                user = await User.findByIdAndUpdate(
-                    user_id,
-                    {
-                        name,
-                        email,
-                        password: hashedPassword,
-                        mobile,
-                    },
-                    { new: true, useFindAndModify: false }
-                );
-
-                return res.json({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    mobile: user.mobile,
-                });
-            }
-
-            return res.status(400).json({
-                message: 'Email already exists',
-            });
-        } catch (error) {
-            throw Error(`Error while updating a user : ${error}`);
-        }
+        });
     },
 };

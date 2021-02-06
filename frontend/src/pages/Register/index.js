@@ -9,6 +9,11 @@ export default function Register({ history }) {
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [mobile, setMobile] = useState(0);
     const [warningMsg, setWarningMsg] = useState('');
+    const user = sessionStorage.getItem('user');
+
+    if (user) {
+        history.push('/user/todo');
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();

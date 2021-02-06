@@ -1,29 +1,32 @@
 const UserToDo = require('../models/UserToDo');
 const User = require('../models/User');
 const moment = require('moment');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
-    async getUserToDoHistory(req, res) {
-        const { user_id } = req.headers;
+    getUserToDoHistory(req, res) {
+        jwt.verify(req.token, 'secret', async (err, authData) => {
+            try {
+                const user = await User.findById(authData.user._id);
 
-        try {
-            const user = await User.findById(user_id);
+                if (!user) {
+                    return res.status(400).json({
+                        message: 'User does not exist',
+                    });
+                }
 
-            if (!user) {
-                return res.status(400).json({
-                    message: 'User does not exist',
-                });
+                const todos = await UserToDo.find({
+                    userId: authData.user._id,
+                    finished: true,
+                }).sort({ date: -1, date_created: -1 });
+
+                return res.json(todos);
+            } catch (error) {
+                throw Error(
+                    `Error while getting user to do history : ${error}`
+                );
             }
-
-            const todos = await UserToDo.find({
-                userId: user_id,
-                finished: true,
-            }).sort({ date: -1, date_created: -1 });
-
-            return res.json(todos);
-        } catch (error) {
-            throw Error(`Error while getting user to do history : ${error}`);
-        }
+        });
     },
     async restoreUserToDo(req, res) {
         const { toDoId } = req.params;

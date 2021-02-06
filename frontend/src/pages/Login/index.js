@@ -8,6 +8,11 @@ export default function Login({ setUser }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [warningMsg, setWarningMsg] = useState('');
+    var user = sessionStorage.getItem('user');
+
+    if (user) {
+        history.push('/user/todo');
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,9 +20,12 @@ export default function Login({ setUser }) {
         try {
             const response = await api.post('/login', { email, password });
             const userId = response.data._id || false;
+            // User Json Web Token (JWT)
+            user = response.data.user || false;
 
-            if (userId) {
-                sessionStorage.setItem('user', userId);
+            if (user && userId) {
+                sessionStorage.setItem('user', user);
+                sessionStorage.setItem('user_id', userId);
                 sessionStorage.setItem('name', response.data.name);
                 setUser(true);
                 history.push('/user/todo');

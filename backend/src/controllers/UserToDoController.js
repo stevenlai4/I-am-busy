@@ -1,6 +1,7 @@
 const UserToDo = require('../models/UserToDo');
 const User = require('../models/User');
 const fetch = require('node-fetch');
+const jwt = require('jsonwebtoken');
 const weather = require('../api/Weather');
 
 // Fetch weather api
@@ -20,33 +21,38 @@ async function fetchWeatherApi() {
 fetchWeatherApi();
 
 module.exports = {
-    async createUserToDo(req, res) {
-        const { user_id } = req.headers;
-        const { title, date, notification } = req.body;
+    createUserToDo(req, res) {
+        jwt.verify(req.token, 'secret', async (err, authData) => {
+            if (err) {
+                res.sendStatus(401);
+            } else {
+                const { title, date, notification } = req.body;
 
-        try {
-            const user = await User.findById(user_id);
+                try {
+                    const user = await User.findById(authData.user._id);
 
-            if (!user) {
-                return res.stauts(400).json({
-                    message: 'User does not exist',
-                });
+                    if (!user) {
+                        return res.stauts(400).json({
+                            message: 'User does not exist',
+                        });
+                    }
+
+                    const todo = await UserToDo.create({
+                        userId: authData.user._id,
+                        title,
+                        date,
+                        notification,
+                        date_created: new Date(),
+                        priority: false,
+                        finished: false,
+                    });
+
+                    return res.json(todo);
+                } catch (error) {
+                    throw Error(`Error while creating a user to do : ${error}`);
+                }
             }
-
-            const todo = await UserToDo.create({
-                userId: user_id,
-                title,
-                date,
-                notification,
-                date_created: new Date(),
-                priority: false,
-                finished: false,
-            });
-
-            return res.json(todo);
-        } catch (error) {
-            throw Error(`Error while creating a user to do : ${error}`);
-        }
+        });
     },
     async getUserToDoById(req, res) {
         const { toDoId } = req.params;
@@ -65,34 +71,43 @@ module.exports = {
             throw Error(`Error while getting a user to do : ${error}`);
         }
     },
-    async getUserToDos(req, res) {
-        const { user_id } = req.headers;
+    getUserToDos(req, res) {
+        jwt.verify(req.token, 'secret', async (err, authData) => {
+            if (err) {
+                res.sendStatus(401);
+            } else {
+                try {
+                    const user = await User.findById(authData.user._id);
 
-        try {
-            const user = await User.findById(user_id);
+                    if (!user) {
+                        return res.status(400).json({
+                            message: 'User does not exist',
+                        });
+                    }
 
-            if (!user) {
-                return res.status(400).json({
-                    message: 'User does not exist',
-                });
+                    const todos = await UserToDo.find({
+                        userId: authData.user._id,
+                        finished: false,
+                    }).sort({ priority: -1, date_created: -1 });
+
+                    let todosWithWeather = todos.map((todo) => {
+                        return {
+                            ...todo._doc,
+                            weather: weather.getWeatherApi(
+                                weatherData,
+                                todo.date
+                            ),
+                        };
+                    });
+
+                    return res.json(todosWithWeather);
+                } catch (error) {
+                    throw Error(
+                        `Error while getting all user to dos : ${error}`
+                    );
+                }
             }
-
-            const todos = await UserToDo.find({
-                userId: user_id,
-                finished: false,
-            }).sort({ priority: -1, date_created: -1 });
-
-            let todosWithWeather = todos.map((todo) => {
-                return {
-                    ...todo._doc,
-                    weather: weather.getWeatherApi(weatherData, todo.date),
-                };
-            });
-
-            return res.json(todosWithWeather);
-        } catch (error) {
-            throw Error(`Error while getting all user to dos : ${error}`);
-        }
+        });
     },
     async updateUserToDoById(req, res) {
         const { toDoId } = req.params;

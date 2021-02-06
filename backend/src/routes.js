@@ -1,5 +1,6 @@
 const express = require('express');
 const routes = express.Router();
+const verifyToken = require('./config/verifyToken');
 // Controllers
 const UserController = require('./controllers/UserController');
 const UserToDoController = require('./controllers/UserToDoController');
@@ -22,7 +23,11 @@ routes.put('/user/update', UserController.updateUser);
 
 ////////////////////////// User To Do History //////////////////////////
 // Get user finished to do
-routes.get('/user/todo/history', UserToDoHistoryController.getUserToDoHistory);
+routes.get(
+    '/user/todo/history',
+    verifyToken,
+    UserToDoHistoryController.getUserToDoHistory
+);
 // Restore user finished to do
 routes.put(
     '/user/todo/history/:toDoId',
@@ -33,7 +38,7 @@ routes.put(
 // Create user to do
 routes.post('/user/todo/create', UserToDoController.createUserToDo);
 // Get user to dos
-routes.get('/user/todo', UserToDoController.getUserToDos);
+routes.get('/user/todo', verifyToken, UserToDoController.getUserToDos);
 // Update user to do
 routes.put('/user/todo/update/:toDoId', UserToDoController.updateUserToDoById);
 // Update user to do date

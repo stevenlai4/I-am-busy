@@ -34,7 +34,7 @@ export default function ToDo({ history }) {
         try {
             let response = await api.get('/user/todo', {
                 headers: {
-                    user_id: user,
+                    user: user,
                 },
             });
 
