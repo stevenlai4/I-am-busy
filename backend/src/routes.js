@@ -36,7 +36,11 @@ routes.put(
 
 ////////////////////////// User To Do //////////////////////////
 // Create user to do
-routes.post('/user/todo/create', UserToDoController.createUserToDo);
+routes.post(
+    '/user/todo/create',
+    verifyToken,
+    UserToDoController.createUserToDo
+);
 // Get user to dos
 routes.get('/user/todo', verifyToken, UserToDoController.getUserToDos);
 // Update user to do

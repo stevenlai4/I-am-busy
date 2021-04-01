@@ -37,12 +37,9 @@
 }
 
 @media screen and (min-width: map-get($breakpoints, desktop)) {
-    .calendar {
+    .calendar,
+    .calendar-item-list {
         max-width: 80%;
         margin: 0 auto;
-    }
-
-    .calendar-item-list {
-        display: none;
     }
 }

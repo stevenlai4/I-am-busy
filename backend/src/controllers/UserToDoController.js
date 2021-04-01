@@ -24,6 +24,7 @@ module.exports = {
     createUserToDo(req, res) {
         jwt.verify(req.token, 'secret', async (err, authData) => {
             if (err) {
+                console.log(authData);
                 res.sendStatus(401);
             } else {
                 const { title, date, notification } = req.body;
